@@ -1,0 +1,43 @@
+.vmh-container {
+  background-color: #338ec7;
+  margin-top: 0px;
+  margin-bottom: 10px;
+}
+.vmh-container .vmh-content .vmh-page-title {
+  text-align: center;
+  vertical-align: middle;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  color: #fff;
+  font-weight: bolder;
+  font-size: 30px;
+}
+@media screen and (min-width: 768px) {
+  .vmh-container .vmh-content .vmh-page-title {
+    font-size: 58px;
+  }
+}
+.vmh-container .vmh-content .vmh-breadcrumb {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+.vmh-container .vmh-content .vmh-breadcrumb .breadcrumb {
+  text-align: center;
+  text-transform: uppercase;
+  background: transparent;
+  color: #fff;
+  font-size: 12px;
+}
+.vmh-container .vmh-content .vmh-breadcrumb .breadcrumb a {
+  color: #fff;
+}
+@media screen and (min-width: 768px) {
+  .vmh-container .vmh-content .vmh-breadcrumb .breadcrumb {
+    font-size: 14px;
+  }
+}
+.vmh-container .vmh-content .vmh-breadcrumb .breadcrumb .active {
+  display: none;
+}

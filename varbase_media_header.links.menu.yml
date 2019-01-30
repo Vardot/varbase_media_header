@@ -1,0 +1,5 @@
+varbase_media_header.settings:
+  title: 'Varbase Media Header settings'
+  description: 'Configuring Varbase Media Header.'
+  parent: varbase_core.settings_index
+  route_name: varbase_media_header.settings

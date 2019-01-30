@@ -1,0 +1,16 @@
+{#
+/**
+ * @file
+ * Varbase Media Header block.
+ */
+#}
+{{ attach_library('varbase_media_header/media_header') }}
+<header class="vmh-container bg-edge2edge">
+  <div class="vmh-content container">
+    <div class="vmh-breadcrumb">{{ vmh_page_breadcrumbs }}</div>
+    <h1 class="vmh-page-title">{{ vmh_page_title }}</h1>
+  </div>
+  <div class="vmh-background bg-edge2edge">
+    {{ vmh_background_media }}
+  </div>
+</header>

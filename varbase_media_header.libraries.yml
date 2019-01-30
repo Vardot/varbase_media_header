@@ -1,0 +1,17 @@
+media_header:
+  css:
+    component:
+      css/component/media_header.component.css: { }
+    theme:
+      css/theme/media_header.theme.css: { }
+  js:
+    js/video.media_header.local-video.js: { }
+    js/video.media_header.vimeo-video.js: { }
+    js/video.media_header.youtube-video.js: { }
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery
+    - core/jquery.once
+    - varbase_media/youtube_player
+    - varbase_media/vimeo_player

@@ -1,0 +1,132 @@
+<?php
+
+/**
+ * @file
+ * Contains varbase_media_header.module.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Symfony\Component\Yaml\Yaml;
+use Drupal\Core\Config;
+use Drupal\Core\Config\InstallStorage;
+use Drupal\Core\Config\StorageInterface;
+use Drupal\Core\Config\FileStorage;
+use Drupal\block\Entity\Block;
+use Drupal\Core\Session\AccountInterface;
+
+define('VARBASE_MEDIA_HEADER_ASSETS', 'src/assets/config_templates');
+define('VARBASE_MEDIA_HEADER_ENTITY_TYPES', serialize([
+  'node',
+]));
+define('VARBASE_MEDIA_HEADER_SETTINGS', 'varbase_media_header_settings');
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function varbase_media_header_form_node_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+
+  $vmh_settings = \Drupal::config('varbase_media_header.settings')->get(VARBASE_MEDIA_HEADER_SETTINGS);
+
+  $entity_info = \Drupal::entityManager()->getDefinitions();
+
+  $bundles = \Drupal::entityManager()->getBundleInfo('node');
+
+  foreach ($bundles as $bundle_key => $bundle) {
+    if (!empty($vmh_settings['node']) && isset($vmh_settings['node'][$bundle_key]) && $vmh_settings['node'][$bundle_key]) {
+
+      if ($form_id == 'node_' . $bundle_key . '_edit_form'
+       || $form_id == 'node_' . $bundle_key . '_form') {
+        _varbase_media_header_group_form($form, $form_state, $form_id);
+      }
+    }
+  }
+}
+
+/**
+ * Varbase Media Header page form node add/edit
+ * 
+ * @param type $form
+ * @param FormStateInterface $form_state
+ * @param type $form_id
+ */
+function _varbase_media_header_group_form(&$form, FormStateInterface $form_state, $form_id) {
+
+  // Have landing page extra fiels in a group in the right-hand column.
+  $form['vmh_group'] = [
+    '#type' => 'fieldset',
+    '#title' => t('Media Header'),
+    '#group' => 'advanced',
+    '#attributes' => [
+      'class' => ['node-form-options']
+    ],
+    '#attached' => [
+      'library' => ['node/drupal.node'],
+    ],
+    '#weight' => -10,
+    '#optional' => TRUE,
+    '#open' => TRUE,
+  ];
+
+  if (isset($form['field_page_header_style'])) {
+    $form['field_page_header_style']['#group'] = 'vmh_group';
+  }
+
+  if (isset($form['field_media'])) {
+    $form['field_media']['#group'] = 'vmh_group';
+  }
+
+}
+
+/**
+ * Implements hook_preprocess_html().
+ */
+function varbase_media_header_preprocess_page(&$variables) {
+
+  $node = \Drupal::routeMatch()->getParameter('node');
+  if ($node instanceof \Drupal\node\NodeInterface) {
+    if (isset($node)) {
+      $vmh_settings = \Drupal::config('varbase_media_header.settings')->get(VARBASE_MEDIA_HEADER_SETTINGS);
+
+      if (!empty($vmh_settings['node'])
+        && isset($vmh_settings['node'][$node->getType()])
+        && $vmh_settings['node'][$node->getType()]
+        && $node->hasField('field_page_header_style')
+        && !$node->get('field_page_header_style')->isEmpty()) {
+
+        $active_theme = \Drupal::config('system.theme')->get('default');
+
+        if ($node->get('field_page_header_style')->value != 'standard') {
+
+          if (isset($variables['page']['header'][$active_theme . '_page_title'])) {
+            unset($variables['page']['header'][$active_theme . '_page_title']);
+          }
+
+          if (isset($variables['page']['header'][$active_theme . '_breadcrumbs'])) {
+            unset($variables['page']['header'][$active_theme . '_breadcrumbs']);
+          }
+
+        }
+      }
+    }
+  }
+
+}
+
+/**
+ * Implements hook_theme().
+ */
+function varbase_media_header_theme($existing, $type, $theme, $path) {
+
+  return [
+   'varbase_media_header_block' => [
+      'template' => 'block--varbase-media-header',
+      'variables' => [
+        'title' => 'Varbase Media Header',
+        'description' => NULL,
+        'vmh_page_title' => NULL,
+        'vmh_page_breadcrumbs' => NULL,
+        'vmh_background_media' => NULL,
+       ],
+    ],
+  ];
+}
