@@ -70,6 +70,7 @@ class VarbaseMediaHeaderBlock extends BlockBase implements BlockPluginInterface 
             $media_field_name = $config['vmh_node'][$node->bundle()];
 
             // Background media.
+            $vmh_background_media = NULL;
             if ($node->hasField($media_field_name)
               && !$node->get($media_field_name)->isEmpty()) {
               $node_field_media = $node->get($media_field_name)->getValue();
