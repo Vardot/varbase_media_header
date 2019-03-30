@@ -11,7 +11,7 @@
 
       // Play local video on load of the page.
       $(".vmh-background video").trigger('play');
- 
+
     }
   }
 

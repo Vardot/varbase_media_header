@@ -6,9 +6,6 @@ use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Symfony\Component\Yaml\Yaml;
 use Drupal\Core\Config;
-use Drupal\Core\Config\InstallStorage;
-use Drupal\Core\Config\StorageInterface;
-use Drupal\Core\Config\FileStorage;
 
 /**
  * VarbaseMediaHeaderSettingsForm Class.
@@ -97,43 +94,40 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
     foreach ($entity_info as $entity_type_key => $entity_type) {
 
       // Entity Type Assets Path.
-      $entity_type_assets_path = $module_path . '/'. VARBASE_MEDIA_HEADER_ASSETS . '/' . $entity_type_key;
-
+      $entity_type_assets_path = $module_path . '/' . VARBASE_MEDIA_HEADER_ASSETS . '/' . $entity_type_key;
 
       // Field storage:
       // field.storage.{$entity_type_key}.field_page_header_style
       // CONFIG FULL:
       // IF-NOT-EXIST
-//      $config_name = "field.storage." . $entity_type_key . ".field_page_header_style";
-//      if (!(\Drupal::configFactory()->get($config_name) == NULL)) {
-//        $config_factory = \Drupal::configFactory()->getEditable($config_name);
-//        $config_template_file_name = "field.storage." . $entity_type_key . ".field_page_header_style.yml";
-//        $config_path = $entity_type_assets_path . '/' . $config_template_file_name;
-//
-//        if (file_exists($config_path)) {
-//          $config_content = file_get_contents($config_path);
-//          $config_data = (array) Yaml::parse($config_content);
-//          $config_factory->setData($config_data)->save(TRUE);
-//        }
-//      }
-
+      //      $config_name = "field.storage." . $entity_type_key . ".field_page_header_style";
+      //      if (!(\Drupal::configFactory()->get($config_name) == NULL)) {
+      //        $config_factory = \Drupal::configFactory()->getEditable($config_name);
+      //        $config_template_file_name = "field.storage." . $entity_type_key . ".field_page_header_style.yml";
+      //        $config_path = $entity_type_assets_path . '/' . $config_template_file_name;
+      //
+      //        if (file_exists($config_path)) {
+      //          $config_content = file_get_contents($config_path);
+      //          $config_data = (array) Yaml::parse($config_content);
+      //          $config_factory->setData($config_data)->save(TRUE);
+      //        }
+      //      }
       // Field storage:
       // field.storage.{$entity_type_key}.field_media
       // CONFIG FULL
       // IF-NOT-EXIST
-//      $config_name = "field.storage." . $entity_type_key . ".field_media";
-//      if (!(\Drupal::configFactory()->get($config_name) == NULL)) {
-//        $config_factory = \Drupal::configFactory()->getEditable($config_name);
-//        $config_template_file_name = "field.storage." . $entity_type_key . ".field_media.yml";
-//        $config_path = $entity_type_assets_path . '/' . $config_template_file_name;
-//
-//        if (file_exists($config_path)) {
-//          $config_content = file_get_contents($config_path);
-//          $config_data = (array) Yaml::parse($config_content);
-//          $config_factory->setData($config_data)->save(TRUE);
-//        }
-//      }
-
+      //      $config_name = "field.storage." . $entity_type_key . ".field_media";
+      //      if (!(\Drupal::configFactory()->get($config_name) == NULL)) {
+      //        $config_factory = \Drupal::configFactory()->getEditable($config_name);
+      //        $config_template_file_name = "field.storage." . $entity_type_key . ".field_media.yml";
+      //        $config_path = $entity_type_assets_path . '/' . $config_template_file_name;
+      //
+      //        if (file_exists($config_path)) {
+      //          $config_content = file_get_contents($config_path);
+      //          $config_data = (array) Yaml::parse($config_content);
+      //          $config_factory->setData($config_data)->save(TRUE);
+      //        }
+      //      }
       $bundles = \Drupal::entityManager()->getBundleInfo($entity_type_key);
       foreach ($bundles as $bundle_key => $bundle) {
         if (!empty($vmh_settings[$entity_type_key])
@@ -143,7 +137,7 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
           // Field instant:
           // field.field.{$entity_type_key}.{$config_entity_type_key_token}.field_page_header_style
           // CONFIG FULL:
-          // IF-NOT-EXIST
+          // IF-NOT-EXIST.
           $config_name = "field.field." . $entity_type_key . "." . $bundle_key . ".field_page_header_style";
           if (!(\Drupal::configFactory()->get($config_name) == NULL)) {
             $config_factory = \Drupal::configFactory()->getEditable($config_name);
@@ -162,7 +156,7 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
           // Field instant:
           // field.field.{$entity_type_key}.{$config_entity_type_key_token}.field_media
           // CONFIG FULL
-          // IF-NOT-EXIST
+          // IF-NOT-EXIST.
           $config_name = "field.field." . $entity_type_key . "." . $bundle_key . ".field_media";
           if (!(\Drupal::configFactory()->get($config_name) == NULL)) {
             $config_factory = \Drupal::configFactory()->getEditable($config_name);
@@ -181,7 +175,7 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
           // Entity form dislay:
           // core.entity_form_display.{$entity_type_key}.{$config_entity_type_key_token}.default
           // CONFIG PART
-          // ADD-TO content
+          // ADD-TO content.
           $config_name = "core.entity_form_display." . $entity_type_key . "." . $bundle_key . ".default";
           if (!(\Drupal::configFactory()->get($config_name) == NULL)) {
             $config_factory = \Drupal::configFactory()->getEditable($config_name);
@@ -206,7 +200,7 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
           // Entity view dislay:
           // core.entity_view_display.{$entity_type_key}.{$config_entity_type_key_token}.default
           // CONFIG PART
-          // ADD-TO hidden
+          // ADD-TO hidden.
           $config_name = "core.entity_view_display." . $entity_type_key . "." . $bundle_key . ".default";
           if (!(\Drupal::configFactory()->get($config_name) == NULL)) {
             $config_factory = \Drupal::configFactory()->getEditable($config_name);

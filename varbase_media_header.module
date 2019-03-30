@@ -5,6 +5,7 @@
  * Contains varbase_media_header.module.
  */
 
+use Drupal\node\NodeInterface;
 use Drupal\Core\Form\FormStateInterface;
 
 define('VARBASE_MEDIA_HEADER_ASSETS', 'src/assets/config_templates');
@@ -40,9 +41,9 @@ function varbase_media_header_form_node_form_alter(&$form, FormStateInterface $f
  *
  * To group fields in add or edit form.
  *
- * @param type $form
- * @param FormStateInterface $form_state
- * @param type $form_id
+ * @param mixed $form
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ * @param string $form_id
  */
 function _varbase_media_header_group_form(&$form, FormStateInterface $form_state, $form_id) {
 
@@ -52,7 +53,7 @@ function _varbase_media_header_group_form(&$form, FormStateInterface $form_state
     '#title' => t('Media Header'),
     '#group' => 'advanced',
     '#attributes' => [
-      'class' => ['node-form-options']
+      'class' => ['node-form-options'],
     ],
     '#attached' => [
       'library' => ['node/drupal.node'],
@@ -78,7 +79,7 @@ function _varbase_media_header_group_form(&$form, FormStateInterface $form_state
 function varbase_media_header_preprocess_page(&$variables) {
 
   $node = \Drupal::routeMatch()->getParameter('node');
-  if ($node instanceof \Drupal\node\NodeInterface) {
+  if ($node instanceof NodeInterface) {
     if (isset($node)) {
       $vmh_settings = \Drupal::config('varbase_media_header.settings')->get(VARBASE_MEDIA_HEADER_SETTINGS);
 
@@ -113,14 +114,14 @@ function varbase_media_header_preprocess_page(&$variables) {
 function varbase_media_header_theme($existing, $type, $theme, $path) {
 
   return [
-   'varbase_media_header_block' => [
+    'varbase_media_header_block' => [
       'variables' => [
         'title' => 'Varbase Media Header',
         'description' => NULL,
         'vmh_page_title' => NULL,
         'vmh_page_breadcrumbs' => NULL,
         'vmh_background_media' => NULL,
-       ],
+      ],
     ],
   ];
 }

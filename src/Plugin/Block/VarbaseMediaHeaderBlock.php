@@ -2,19 +2,18 @@
 
 namespace Drupal\varbase_media_header\Plugin\Block;
 
+use Drupal\node\Entity\Node;
+use Drupal\node\NodeInterface;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Block\BlockPluginInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\node\Entity\Node;
-use Drupal\file\Entity\File;
-use Drupal\image\Entity\ImageStyle;
-use Drupal\node\Entity\NodeType;
 use Drupal\Core\Cache\Cache;
 use Drupal\media\Entity\Media;
 
 /**
- * Provides a Varbase Media Header block with a responsive media as a background
- * and page title and breadcrumbs.
+ * Provides a Varbase Media Header block.
+ *
+ * Responsive media as a background and page title and breadcrumbs.
  *
  * @Block(
  *   id = "varbase_media_header_block",
@@ -38,10 +37,10 @@ class VarbaseMediaHeaderBlock extends BlockBase implements BlockPluginInterface 
     $config = $this->getConfiguration();
 
     $node = \Drupal::routeMatch()->getParameter('node');
-    if ($node instanceof \Drupal\node\NodeInterface) {
+    if ($node instanceof NodeInterface) {
       if (isset($node)) {
 
-       $node = \Drupal\node\Entity\Node::load($node->id());
+        $node = Node::load($node->id());
 
         if (isset($config['vmh_node'][$node->bundle()])
           && $config['vmh_node'][$node->bundle()] != '_none_') {
@@ -75,9 +74,9 @@ class VarbaseMediaHeaderBlock extends BlockBase implements BlockPluginInterface 
               && !$node->get($media_field_name)->isEmpty()) {
               $node_field_media = $node->get($media_field_name)->getValue();
               if (!empty($node_field_media)) {
-                 $node_field_media_entity = Media::load($node_field_media[0]['target_id']);
-                 $node_field_media_build = \Drupal::entityTypeManager()->getViewBuilder('media')->view($node_field_media_entity, $config['vmh_media_view_mode']); 
-                 $vmh_background_media = \Drupal::service('renderer')->render($node_field_media_build);
+                $node_field_media_entity = Media::load($node_field_media[0]['target_id']);
+                $node_field_media_build = \Drupal::entityTypeManager()->getViewBuilder('media')->view($node_field_media_entity, $config['vmh_media_view_mode']);
+                $vmh_background_media = \Drupal::service('renderer')->render($node_field_media_build);
               }
             }
 
@@ -88,12 +87,12 @@ class VarbaseMediaHeaderBlock extends BlockBase implements BlockPluginInterface 
                 '#cache' => [
                   'tags' => $this->getCacheTags(),
                   'contexts' => $this->getCacheContexts(),
-                  'max-age' => $this->getCacheMaxAge(), 
+                  'max-age' => $this->getCacheMaxAge(),
                 ],
                 '#vmh_page_title' => $vmh_page_title,
                 '#vmh_page_breadcrumbs' => $vmh_page_breadcrumbs,
                 '#vmh_background_media' => $vmh_background_media,
-              ]
+              ],
             ];
           }
         }
@@ -131,7 +130,7 @@ class VarbaseMediaHeaderBlock extends BlockBase implements BlockPluginInterface 
             && isset($vmh_settings[$entity_type_key][$bundle_key])
             && $vmh_settings[$entity_type_key][$bundle_key]) {
 
-            $options = ['_none_' => t(" - None - ")];
+            $options = ['_none_' => t("-  None  -")];
 
             $media_fields = \Drupal::service('entity_field.manager')->getFieldDefinitions($entity_type_key, $bundle_key);
             foreach ($media_fields as $field_name => $field_definition) {
@@ -161,7 +160,7 @@ class VarbaseMediaHeaderBlock extends BlockBase implements BlockPluginInterface 
       }
     }
 
-    $media_view_mode_options = \Drupal::service('entity_display.repository')->getViewModeOptions('media'); 
+    $media_view_mode_options = \Drupal::service('entity_display.repository')->getViewModeOptions('media');
     $form['vmh_media_view_mode'] = [
       '#type' => 'select',
       '#title' => t('Media view mode'),
@@ -193,7 +192,7 @@ class VarbaseMediaHeaderBlock extends BlockBase implements BlockPluginInterface 
             && isset($vmh_settings[$entity_type_key][$bundle_key])
             && $vmh_settings[$entity_type_key][$bundle_key]) {
 
-            $this->configuration['vmh_' .$entity_type_key] = $values['vmh_' .$entity_type_key];
+            $this->configuration['vmh_' . $entity_type_key] = $values['vmh_' . $entity_type_key];
           }
         }
       }
@@ -219,6 +218,11 @@ class VarbaseMediaHeaderBlock extends BlockBase implements BlockPluginInterface 
    * {@inheritdoc}
    */
   public function getCacheContexts() {
-    return Cache::mergeContexts(parent::getCacheContexts(), ['url.path', 'url.query_args', 'route']);
+    return Cache::mergeContexts(parent::getCacheContexts(),
+      ['url.path',
+        'url.query_args',
+        'route',
+      ]);
   }
+
 }
