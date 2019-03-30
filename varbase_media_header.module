@@ -119,7 +119,6 @@ function varbase_media_header_theme($existing, $type, $theme, $path) {
 
   return [
    'varbase_media_header_block' => [
-      'template' => 'block--varbase-media-header',
       'variables' => [
         'title' => 'Varbase Media Header',
         'description' => NULL,

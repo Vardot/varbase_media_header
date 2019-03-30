@@ -82,16 +82,18 @@ class VarbaseMediaHeaderBlock extends BlockBase implements BlockPluginInterface 
             }
 
             return [
-              '#title' => $this->t('Varbase Media Header'),
-              '#theme' => 'varbase_media_header_block',
-              '#cache' => [
-                'tags' => $this->getCacheTags(),
-                'contexts' => $this->getCacheContexts(),
-                'max-age' => $this->getCacheMaxAge(), 
-              ],
-              '#vmh_page_title' => $vmh_page_title,
-              '#vmh_page_breadcrumbs' => $vmh_page_breadcrumbs,
-              '#vmh_background_media' => $vmh_background_media,
+              'varbase_media_header_content' => [
+                '#title' => $this->t('Varbase Media Header'),
+                '#theme' => 'varbase_media_header_block',
+                '#cache' => [
+                  'tags' => $this->getCacheTags(),
+                  'contexts' => $this->getCacheContexts(),
+                  'max-age' => $this->getCacheMaxAge(), 
+                ],
+                '#vmh_page_title' => $vmh_page_title,
+                '#vmh_page_breadcrumbs' => $vmh_page_breadcrumbs,
+                '#vmh_background_media' => $vmh_background_media,
+              ]
             ];
           }
         }
