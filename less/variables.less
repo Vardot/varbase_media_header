@@ -6,19 +6,19 @@
 //## Define the breakpoints at which your layout will change, adapting to different screen sizes.
 
 // Extra small screen / phone
-//** Deprecated `@screen-xs` as of v3.0.1
-@screen-xs:                  480px;
-//** Deprecated `@screen-xs-min` as of v3.2.0
-@screen-xs-min:              @screen-xs;
+//** Deprecated `@screen` as of v3.0.1
+@screen:                  480px;
+//** Deprecated `@screen-min` as of v3.2.0
+@screen-min:              @screen;
 //** Deprecated `@screen-phone` as of v3.0.1
-@screen-phone:               @screen-xs-min;
+@screen-phone:               @screen-min;
 
 // Small screen / tablet
-//** Deprecated `@screen-sm` as of v3.0.1
-@screen-sm:                  768px;
-@screen-sm-min:              @screen-sm;
+//** Deprecated `@screen-md` as of v3.0.1
+@screen-md:                  768px;
+@screen-md-min:              @screen-md;
 //** Deprecated `@screen-tablet` as of v3.0.1
-@screen-tablet:              @screen-sm-min;
+@screen-tablet:              @screen-md-min;
 
 // Medium screen / desktop
 //** Deprecated `@screen-md` as of v3.0.1
@@ -35,8 +35,8 @@
 @screen-lg-desktop:          @screen-lg-min;
 
 // So media queries don't overlap when required, provide a maximum
-@screen-xs-max:              (@screen-sm-min - 1);
-@screen-sm-max:              (@screen-md-min - 1);
+@screen-max:              (@screen-md-min - 1);
+@screen-md-max:              (@screen-md-min - 1);
 @screen-md-max:              (@screen-lg-min - 1);
 
 
@@ -48,32 +48,29 @@
 // -----------------------------------------------------------------------------
 
 // Varbase Media Header container height.
-@vmh-container-min-height-xs: 400px;
-@vmh-container-max-height-xs: 400px;
-@vmh-container-min-height-sm: 300px;
-@vmh-container-max-height-sm: 300px;
+
+@vmh-container-v-padding: 60px;
+
+@vmh-container-min-height: 300px;
+@vmh-container-max-height: 300px;
+@vmh-container-min-height-md: 300px;
+@vmh-container-max-height-md: 300px;
 
 @vmh-container-top-margin: 0px;
 @vmh-container-bottom-margin: 10px;
 
 // Varbase Media Header fallback container background color.
 @vmh-fullback-container-background-color: #338ec7;
-
-// Varbase Media Header background height.
-@vmh-background-min-height-xs: 400px;
-@vmh-background-max-height-xs: 400px;
-@vmh-background-min-height-sm: 300px;
-@vmh-background-max-height-sm: 300px;
-
+ 
 // Varbase Media Header content text general style.
 @vmh-content-text-color: #fff;
 
 // Varbase Media Header title style.
 @vmh-title-color: #fff;
-@vmh-title-font-size-xs: 30px;
-@vmh-title-font-size-sm: 58px;
+@vmh-title-font-size: 30px;
+@vmh-title-font-size-md: 58px;
 
 // Varbase Media Header breadcrumb style.
 @vmh-breadcrumb-color: #fff;
-@vmh-breadcrumb-font-size-xs: 12px;
-@vmh-breadcrumb-font-size-sm: 14px;
+@vmh-breadcrumb-font-size: 12px;
+@vmh-breadcrumb-font-size-md: 14px;

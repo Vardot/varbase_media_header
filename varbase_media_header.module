@@ -6,13 +6,6 @@
  */
 
 use Drupal\Core\Form\FormStateInterface;
-use Symfony\Component\Yaml\Yaml;
-use Drupal\Core\Config;
-use Drupal\Core\Config\InstallStorage;
-use Drupal\Core\Config\StorageInterface;
-use Drupal\Core\Config\FileStorage;
-use Drupal\block\Entity\Block;
-use Drupal\Core\Session\AccountInterface;
 
 define('VARBASE_MEDIA_HEADER_ASSETS', 'src/assets/config_templates');
 define('VARBASE_MEDIA_HEADER_ENTITY_TYPES', serialize([
@@ -43,8 +36,10 @@ function varbase_media_header_form_node_form_alter(&$form, FormStateInterface $f
 }
 
 /**
- * Varbase Media Header page form node add/edit
- * 
+ * Varbase Media Header page form node add/edit.
+ *
+ * To group fields in add or edit form.
+ *
  * @param type $form
  * @param FormStateInterface $form_state
  * @param type $form_id

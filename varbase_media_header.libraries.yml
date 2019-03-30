@@ -1,13 +1,13 @@
-media_header:
+media_header_styles:
   css:
     component:
-      css/component/media_header.component.css: { }
-    theme:
-      css/theme/media_header.theme.css: { }
+      css/components/media_header.component.css: { }
+
+media_header_scripts:
   js:
-    js/video.media_header.local-video.js: { }
-    js/video.media_header.vimeo-video.js: { }
-    js/video.media_header.youtube-video.js: { }
+    js/video.media_header.local.js: { }
+    js/video.media_header.vimeo.js: { }
+    js/video.media_header.youtube.js: { }
   dependencies:
     - core/drupal
     - core/drupalSettings
