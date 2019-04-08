@@ -123,5 +123,27 @@ function varbase_media_header_theme($existing, $type, $theme, $path) {
         'vmh_background_media' => NULL,
       ],
     ],
+    'media_oembed_iframe' => [
+      'template' => 'media-oembed-iframe--media-header',
+    ],
   ];
+}
+
+/**
+ * Implements hook_theme_suggestions_media_oembed_iframe_alter().
+ */
+function varbase_media_header_theme_suggestions_media_oembed_iframe_alter(array &$suggestions, array &$variables) {
+
+
+  if (isset($variables['provider_name'])) {
+    $suggestions[] = 'media-oembed-iframe--media-header';
+    $suggestions[] = 'media-oembed-iframe--media-header--provider--' . $variables['provider_name'];
+  }
+
+  $variables['module_handler_path'] = \Drupal::service('module_handler')->getModule("varbase_media_header")->getPath();
+  $variables['theme_handler_path'] = \Drupal::theme()->getActiveTheme()->getPath();
+  $variables['base_path'] = base_path();
+
+  return $suggestions;
+
 }
