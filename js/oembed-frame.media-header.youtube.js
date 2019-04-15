@@ -59,14 +59,25 @@ ready(function() {
         youtubeURL = undefined;
 
         youtube_player = new YT.Player(youtube_iframe.id, {
+          playerVars: {
+            autoplay: 1,        // Auto-play the video on load
+            controls: 0,        // Show pause/play buttons in player
+            showinfo: 0,        // Hide the video title
+            modestbranding: 1,  // Hide the Youtube Logo
+            loop: 1,            // Run the video in a loop
+            fs: 0,              // Hide the full screen button
+            autohide: 0,        // Hide video controls when playing
+            rel: 0,             // Hide related videos
+          },
           events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange
           }
         });
-        
-        function onPlayerReady(event) {
 
+        function onPlayerReady(event) {
+          event.target.mute();
+          event.target.setVolume(0);
           event.target.playVideo();
         }
 
