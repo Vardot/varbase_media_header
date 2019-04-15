@@ -8,10 +8,13 @@
 
   Drupal.behaviors.varbaseMediaHeader_youtube = {
     attach: function (context, settings) {
-
-      if ($('.vmh-background').find('.media--type-remote-video iframe[src*="youtube.com"]').length > 0) {
-        var closestYoutubeIframe = $('.vmh-background').find('.media--type-remote-video iframe[src*="youtube.com"]').get(0).contentWindow;
-        closestYoutubeIframe.postMessage('play', Drupal.url().toAbsolute);
+      if(context === window.document){
+        $(document).ready(function(){
+          if ($('.vmh-background').find('.media--type-remote-video iframe[src*="youtube.com"]').length > 0) {
+            var closestYoutubeIframe = $('.vmh-background').find('.media--type-remote-video iframe[src*="youtube.com"]').get(0).contentWindow;
+            closestYoutubeIframe.postMessage('play', Drupal.url().toAbsolute);
+          }
+        })
       }
     }
   }

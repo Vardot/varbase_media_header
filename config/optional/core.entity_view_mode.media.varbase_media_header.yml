@@ -1,0 +1,12 @@
+uuid: 534da6e5-770c-4d8e-b3db-376e1e5739a6
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+_core:
+  default_config_hash: n7OP-NWRc54GMu7qPS7m0u__6IvhelXI6iBn3mg10zg
+id: media.varbase_media_header
+label: 'Media Header'
+targetEntityType: media
+cache: true
