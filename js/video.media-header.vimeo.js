@@ -8,13 +8,13 @@
 
   Drupal.behaviors.varbaseMediaHeader_vimeo = {
     attach: function (context, settings) {
-      if(context === window.document){
-        $(document).ready(function(){
+      if (context === window.document) {
+        $(document).ready(function() {
           if ($('.vmh-background').find('.media--type-remote-video iframe[src*="vimeo.com"]').length > 0) {
             var closestVimeoIframe = $('.vmh-background').find('.media--type-remote-video iframe[src*="vimeo.com"]').get(0).contentWindow;
             closestVimeoIframe.postMessage('play', "*");
           }
-        }
+        });
       }
     }
   }
