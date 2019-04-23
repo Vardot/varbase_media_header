@@ -7,6 +7,7 @@
 
 use Drupal\node\NodeInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
 
 define('VARBASE_MEDIA_HEADER_ASSETS', 'src/assets/config_templates');
 define('VARBASE_MEDIA_HEADER_ENTITY_TYPES', serialize([
@@ -123,5 +124,23 @@ function varbase_media_header_theme($existing, $type, $theme, $path) {
         'vmh_background_media' => NULL,
       ],
     ],
+    'media_oembed_iframe__remote_video__varbase_media_header' => [
+      'template' => 'media-oembed-iframe--remote-video--varbase-media-header'
+    ]
   ];
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function varbase_heroslider_media_preprocess_media_oembed_iframe__remote_video__varbase_media_header(&$variables) {
+  // suggestions go here!
+  $module_handler = \Drupal::service('module_handler');
+  $query = \Drupal::request()->query;
+  $variables['type'] = $query->get('type');
+  $variables['provider'] = $query->get('provider');
+  $variables['view_mode'] = $query->get('view_mode');
+  $variables['base_path'] = Url::fromRoute('<front>', [], ['absolute' => TRUE]);
+  $variables['varbase_media_header_path'] = $module_handler->getModule('varbase_media_header')->getPath();
+
 }
