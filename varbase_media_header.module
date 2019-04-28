@@ -137,7 +137,7 @@ function varbase_heroslider_media_preprocess_media_oembed_iframe__remote_video__
   $variables['type'] = $query->get('type');
   $variables['provider'] = $query->get('provider');
   $variables['view_mode'] = $query->get('view_mode');
-  $variables['base_path'] = Url::fromRoute('<front>', [], ['absolute' => TRUE]);
+  $variables['base_path'] = base_path();
   $variables['varbase_media_header_path'] = $module_handler->getModule('varbase_media_header')->getPath();
 
 }
