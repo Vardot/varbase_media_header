@@ -73,9 +73,16 @@ class VarbaseMediaHeaderBlock extends BlockBase implements BlockPluginInterface 
 
             // Background media.
             $vmh_background_media = NULL;
-            if ($node->hasField($media_field_name)
-              && !$node->getTranslation($langcode)->get($media_field_name)->isEmpty()) {
-              $node_field_media = $node->getTranslation($langcode)->get($media_field_name)->getValue();
+            if ($node->hasField($media_field_name)) {
+              if ($node->hasTranslation($langcode)) {
+                if (!$node->getTranslation($langcode)->get($media_field_name)->isEmpty()) {
+                  $node_field_media = $node->getTranslation($langcode)->get($media_field_name)->getValue();
+                }
+              }
+              else {
+                $node_field_media = $node->get($media_field_name)->getValue();
+              }
+
               if (!empty($node_field_media)) {
                 $node_field_media_entity = Media::load($node_field_media[0]['target_id']);
                 $node_field_media_build = \Drupal::entityTypeManager()->getViewBuilder('media')->view($node_field_media_entity, $config['vmh_media_view_mode']);
