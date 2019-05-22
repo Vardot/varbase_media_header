@@ -31,11 +31,11 @@
     "oomphinc/composer-installers-extender": "~1.0",
     "cweagans/composer-patches": "~1.0",
     "drupal/drupal-library-installer-plugin": "^0.3",
-    "drupal/varbase_media": "^6.6"
+    "drupal/varbase_media": "^6.6 || ~7.0"
   },
   "extra": {
     "branch-alias": {
-      "dev-8.x-6.x": "8.6.x-dev"
+      "dev-8.x-7.x": "8.7.x-dev"
     },
     "installer-types": [
       "bower-asset",
