@@ -1,6 +1,6 @@
 // Varbase Media Header theme styling.
 // -----------------------------------------------------------------------------
-@import "../variables.less";
+@import "../variables.scss";
 // -----------------------------------------------------------------------------
 
 .vmh-container {
@@ -8,19 +8,19 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: @vmh-fullback-container-background-color;
+  background-color: $vmh-fullback-container-background-color;
   margin-bottom: 40px;
 
-  max-height: @vmh-container-max-height;
-  @media screen and (min-width: @screen-md-min) {
-    max-height: @vmh-container-max-height-md;
+  max-height: $vmh-container-max-height;
+  @media screen and (min-width: map-get($grid-breakpoints, "lg")) {
+    max-height: $vmh-container-max-height-lg;
   }
 
   // Varbase Media Header fallback container background.
   .vmh-background {
-    min-height: @vmh-container-min-height;
-    @media screen and (min-width: @screen-md-min) {
-      min-height: @vmh-container-min-height-md;
+    min-height: $vmh-container-min-height;
+    @media screen and (min-width: map-get($grid-breakpoints, "lg")) {
+      min-height: $vmh-container-min-height-lg;
     }
 
     top: 0;
@@ -30,9 +30,9 @@
     overflow: hidden;
 
     img {
-      min-height: @vmh-container-min-height;
-      @media screen and (min-width: @screen-md-min) {
-        min-height: @vmh-container-min-height-md;
+      min-height: $vmh-container-min-height;
+      @media screen and (min-width: map-get($grid-breakpoints, "lg")) {
+        min-height: $vmh-container-min-height-lg;
       }
       top: 0;
       left: 0;
@@ -71,13 +71,13 @@
     }
 
     /* 1. No object-fit support: */
-    @media (min-aspect-ratio: ~"16/9") {
+    @media (min-aspect-ratio: #{"16/9"}) {
       img {
         height: 300%;
         top: -100%;
       }
     }
-    @media (max-aspect-ratio: ~"16/9") {
+    @media (max-aspect-ratio: #{"16/9"}) {
       .varbase-video-player.embed-responsive {
         position: relative;
         width: 240vw;
@@ -143,19 +143,21 @@
   }
 
   .vmh-content {
-    padding-top: @vmh-container-v-padding;
-    padding-bottom: @vmh-container-v-padding;
+    padding-top: $vmh-container-v-padding;
+    padding-bottom: $vmh-container-v-padding;
   }
 
   // Varbase Media Header title.
   .vmh-page-title {
     text-align: center;
-    color: @vmh-content-text-color;
+    color: $vmh-content-text-color;
     font-weight: bolder;
-    font-size: @vmh-title-font-size;
+    padding-left: 15px;
+    padding-right: 15px;
+    @include font-size($vmh-title-font-size);
 
-    @media screen and (min-width: @screen-md-min) {
-      font-size: @vmh-title-font-size-md;
+    @media screen and (min-width: map-get($grid-breakpoints, "lg")) {
+      @include font-size($vmh-title-font-size-lg);
     }
   }
 
@@ -166,15 +168,16 @@
       text-align: center;
       text-transform: uppercase;
       background: none;
-      color: @vmh-breadcrumb-color;
-      font-size: @vmh-breadcrumb-font-size;
+      color: $vmh-breadcrumb-color;
+      @include font-size($vmh-breadcrumb-font-size);
 
-      a {
-        color: @vmh-breadcrumb-color;
+      a,
+      .breadcrumb-item + .breadcrumb-item::before {
+        color: $vmh-breadcrumb-color;
       }
 
-      @media screen and (min-width: @screen-md-min) {
-        font-size: @vmh-breadcrumb-font-size-md;
+      @media screen and (min-width: map-get($grid-breakpoints, "lg")) {
+        @include font-size($vmh-breadcrumb-font-size-lg);
       }
 
       .active  {

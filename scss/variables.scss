@@ -1,0 +1,50 @@
+// Variables for Varbase Media Header (Image, Video, or media)
+// -----------------------------------------------------------------------------
+
+@import "../node_modules/rfs/scss";
+
+// Grid breakpoints ( Bootstrap 4 )
+//
+// Define the minimum dimensions at which your layout will change,
+// adapting to different screen sizes, for use in media queries.
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+) !default;
+
+// -----------------------------------------------------------------------------
+// Varbase Media Header.
+// -----------------------------------------------------------------------------
+
+// Varbase Media Header container height.
+
+$vmh-container-v-padding: 60px;
+
+$vmh-container-min-height: 300px;
+$vmh-container-max-height: 300px;
+
+$vmh-container-min-height-lg: 300px;
+$vmh-container-max-height-lg: 300px;
+
+$vmh-container-top-margin: 0px;
+$vmh-container-bottom-margin: 10px;
+
+// Varbase Media Header fallback container background color.
+$vmh-fullback-container-background-color: #338ec7;
+ 
+// Varbase Media Header content text general style.
+$vmh-content-text-color: #fff;
+
+// Varbase Media Header title style.
+$vmh-title-color: #fff;
+$vmh-title-font-size: 30px;
+$vmh-title-font-size-lg: 58px;
+
+// Varbase Media Header breadcrumb style.
+$vmh-breadcrumb-color: #fff;
+$vmh-breadcrumb-font-size: 12px;
+$vmh-breadcrumb-font-size-lg: 14px;
