@@ -5,5 +5,6 @@ package: Varbase
 version: 8.x-7.x-dev
 core: 8.x
 project: varbase_media_header
+configure: varbase_media_header.settings
 dependencies:
   - varbase_media:varbase_media (>= 6.6)
