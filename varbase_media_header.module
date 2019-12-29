@@ -122,6 +122,10 @@ function varbase_media_header_theme($existing, $type, $theme, $path) {
     ],
     'media_oembed_iframe__remote_video__varbase_media_header' => [
       'template' => 'media-oembed-iframe--remote-video--varbase-media-header',
+      'variables' => [
+        'provider' => NULL,
+        'media' => NULL,
+      ],
     ],
   ];
 }
