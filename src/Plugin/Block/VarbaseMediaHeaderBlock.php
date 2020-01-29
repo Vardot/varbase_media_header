@@ -216,12 +216,17 @@ class VarbaseMediaHeaderBlock extends BlockBase implements BlockPluginInterface 
    * {@inheritdoc}
    */
   public function getCacheTags() {
-    if ($node = \Drupal::routeMatch()->getParameter('node')) {
-      return Cache::mergeTags(parent::getCacheTags(), ['node:' . $node->id()]);
+    $node = \Drupal::routeMatch()->getParameter('node');
+    if ($node instanceof NodeInterface) {
+      if (isset($node)) {
+        return Cache::mergeTags(parent::getCacheTags(), ['node:' . $node->id()]);
+      }
     }
-    else {
-      return parent::getCacheTags();
+    elseif(is_numeric($node)) {
+      return Cache::mergeTags(parent::getCacheTags(), ['node:' . (int) $node]);
     }
+
+    return parent::getCacheTags();
   }
 
   /**
