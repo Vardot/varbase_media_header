@@ -8,18 +8,12 @@
 use Drupal\node\NodeInterface;
 use Drupal\Core\Form\FormStateInterface;
 
-define('VARBASE_MEDIA_HEADER_ASSETS', 'src/assets/config_templates');
-define('VARBASE_MEDIA_HEADER_ENTITY_TYPES', serialize([
-  'node',
-]));
-define('VARBASE_MEDIA_HEADER_SETTINGS', 'varbase_media_header_settings');
-
 /**
  * Implements hook_form_FORM_ID_alter().
  */
 function varbase_media_header_form_node_form_alter(&$form, FormStateInterface $form_state, $form_id) {
 
-  $vmh_settings = \Drupal::config('varbase_media_header.settings')->get(VARBASE_MEDIA_HEADER_SETTINGS);
+  $vmh_settings = \Drupal::config('varbase_media_header.settings')->get('varbase_media_header_settings');
 
   $bundles = \Drupal::entityManager()->getBundleInfo('node');
 
@@ -89,7 +83,7 @@ function varbase_media_header_preprocess_block(&$variables) {
     if ($node instanceof NodeInterface) {
       if (isset($node)) {
 
-        $vmh_settings = \Drupal::config('varbase_media_header.settings')->get(VARBASE_MEDIA_HEADER_SETTINGS);
+        $vmh_settings = \Drupal::config('varbase_media_header.settings')->get('varbase_media_header_settings');
         if (!empty($vmh_settings['node'])
           && isset($vmh_settings['node'][$node->getType()])
           && $vmh_settings['node'][$node->getType()]
