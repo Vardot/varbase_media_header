@@ -15,7 +15,7 @@ function varbase_media_header_form_node_form_alter(&$form, FormStateInterface $f
 
   $vmh_settings = \Drupal::config('varbase_media_header.settings')->get('varbase_media_header_settings');
 
-  $bundles = \Drupal::entityManager()->getBundleInfo('node');
+  $bundles = \Drupal::entityTypeManager()->getBundleInfo('node');
 
   foreach ($bundles as $bundle_key => $bundle) {
     if (!empty($vmh_settings['node']) && isset($vmh_settings['node'][$bundle_key]) && $vmh_settings['node'][$bundle_key]) {

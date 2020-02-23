@@ -13,10 +13,11 @@ use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Controller\TitleResolverInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a Varbase Media Header block.
@@ -36,7 +37,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
  *   }
  * )
  */
-class VarbaseMediaHeaderBlock extends BlockBase implements BlockPluginInterface, ContainerInjectionInterface {
+class VarbaseMediaHeaderBlock extends BlockBase implements BlockPluginInterface {
 
   use StringTranslationTrait;
 
@@ -92,12 +93,6 @@ class VarbaseMediaHeaderBlock extends BlockBase implements BlockPluginInterface,
   /**
    * Constructs a new Varbase Media Header Block.
    *
-   * @param array $configuration
-   *   A configuration array containing information about the plugin instance.
-   * @param string $plugin_id
-   *   The plugin_id for the plugin instance.
-   * @param array $plugin_definition
-   *   The plugin implementation definition.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The factory for configuration objects.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
@@ -121,8 +116,8 @@ class VarbaseMediaHeaderBlock extends BlockBase implements BlockPluginInterface,
    * @param \Drupal\Core\Entity\EntityDisplayRepositoryInterface $entity_display_repository
    *   The entity display repository.
    */
-  public function __construct(array $configuration, string $plugin_id, array $plugin_definition, ConfigFactoryInterface $config_factory, EntityTypeManagerInterface $entity_type_manager, LanguageManagerInterface $language_manager, RouteMatchInterface $route_match, TitleResolverInterface $title_resolver, RequestStack $request_stack, AccountInterface $current_user, BlockManagerInterface $block_manager, RendererInterface $renderer, EntityFieldManagerInterface $entity_field_manager, EntityDisplayRepositoryInterface $entity_display_repository = NULL) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition);
+  public function __construct(ConfigFactoryInterface $config_factory, EntityTypeManagerInterface $entity_type_manager, LanguageManagerInterface $language_manager, RouteMatchInterface $route_match, TitleResolverInterface $title_resolver, RequestStack $request_stack, AccountInterface $current_user, BlockManagerInterface $block_manager, RendererInterface $renderer, EntityFieldManagerInterface $entity_field_manager, EntityDisplayRepositoryInterface $entity_display_repository = NULL) {
+    parent::__construct();
     $this->configFactory = $config_factory;
     $this->entityTypeManager = $entity_type_manager;
     $this->languageManager = $language_manager;
@@ -139,11 +134,8 @@ class VarbaseMediaHeaderBlock extends BlockBase implements BlockPluginInterface,
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+  public static function create(ContainerInterface $container) {
     return new static(
-      $configuration,
-      $plugin_id,
-      $plugin_definition,
       $container->get('config.factory'),
       $container->get('entity_type.manager'),
       $container->get('language_manager'),
