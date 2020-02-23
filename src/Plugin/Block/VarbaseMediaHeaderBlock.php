@@ -2,22 +2,26 @@
 
 namespace Drupal\varbase_media_header\Plugin\Block;
 
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\node\NodeInterface;
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Block\BlockPluginInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Cache\Cache;
 use Drupal\media\Entity\Media;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Controller\TitleResolverInterface;
 use Drupal\Core\Session\AccountInterface;
-use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
+use Drupal\Core\Block\BlockManagerInterface;
+use Drupal\Core\Render\RendererInterface;
+use Drupal\Core\Entity\EntityFieldManagerInterface;
+use Drupal\Core\Entity\EntityDisplayRepositoryInterface;
 
 /**
  * Provides a Varbase Media Header block.
@@ -37,9 +41,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   }
  * )
  */
-class VarbaseMediaHeaderBlock extends BlockBase implements BlockPluginInterface {
-
-  use StringTranslationTrait;
+class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   /**
    * Contains the configuration object factory.
@@ -54,6 +56,13 @@ class VarbaseMediaHeaderBlock extends BlockBase implements BlockPluginInterface 
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityTypeManager;
+
+  /**
+   * The entity type bundle information service.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeBundleInfoInterface
+   */
+  protected $bundleInfo;
 
   /**
    * The language manager service.
@@ -93,10 +102,18 @@ class VarbaseMediaHeaderBlock extends BlockBase implements BlockPluginInterface 
   /**
    * Constructs a new Varbase Media Header Block.
    *
+   * @param array $configuration
+   *   A configuration array containing information about the plugin instance.
+   * @param string $plugin_id
+   *   The plugin_id for the plugin instance.
+   * @param mixed $plugin_definition
+   *   The plugin implementation definition.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The factory for configuration objects.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager service.
+   * @param \Drupal\Core\Entity\EntityTypeBundleInfoInterface $bundle_info
+   *   The entity type bundle service.
    * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
    *   The language manager service.
    * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
@@ -116,10 +133,25 @@ class VarbaseMediaHeaderBlock extends BlockBase implements BlockPluginInterface 
    * @param \Drupal\Core\Entity\EntityDisplayRepositoryInterface $entity_display_repository
    *   The entity display repository.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, EntityTypeManagerInterface $entity_type_manager, LanguageManagerInterface $language_manager, RouteMatchInterface $route_match, TitleResolverInterface $title_resolver, RequestStack $request_stack, AccountInterface $current_user, BlockManagerInterface $block_manager, RendererInterface $renderer, EntityFieldManagerInterface $entity_field_manager, EntityDisplayRepositoryInterface $entity_display_repository = NULL) {
-    parent::__construct();
+  public function __construct(array $configuration,
+  $plugin_id,
+  $plugin_definition,
+          ConfigFactoryInterface $config_factory,
+          EntityTypeManagerInterface $entity_type_manager,
+          EntityTypeBundleInfoInterface $bundle_info,
+          LanguageManagerInterface $language_manager,
+          RouteMatchInterface $route_match,
+          TitleResolverInterface $title_resolver,
+          RequestStack $request_stack,
+          AccountInterface $current_user,
+          BlockManagerInterface $block_manager,
+          RendererInterface $renderer,
+          EntityFieldManagerInterface $entity_field_manager,
+          EntityDisplayRepositoryInterface $entity_display_repository) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->configFactory = $config_factory;
     $this->entityTypeManager = $entity_type_manager;
+    $this->bundleInfo = $bundle_info;
     $this->languageManager = $language_manager;
     $this->routeMatch = $route_match;
     $this->titleResolver = $title_resolver;
@@ -134,10 +166,14 @@ class VarbaseMediaHeaderBlock extends BlockBase implements BlockPluginInterface 
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container) {
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
       $container->get('config.factory'),
       $container->get('entity_type.manager'),
+      $container->get('entity_type.bundle.info'),
       $container->get('language_manager'),
       $container->get('current_route_match'),
       $container->get('title_resolver'),
@@ -237,10 +273,10 @@ class VarbaseMediaHeaderBlock extends BlockBase implements BlockPluginInterface 
     $form = parent::blockForm($form, $form_state);
     $config = $this->getConfiguration();
 
-    $vmh_settings = $this->configFactory->config('varbase_media_header.settings')
+    $vmh_settings = (array) $this->configFactory->get('varbase_media_header.settings')
       ->get('varbase_media_header_settings');
 
-    $entity_info = $this->entityTypeManager()->getDefinitions();
+    $entity_info = $this->entityTypeManager->getDefinitions();
 
     foreach ($entity_info as $entity_type_key => $entity_type) {
 
@@ -253,7 +289,7 @@ class VarbaseMediaHeaderBlock extends BlockBase implements BlockPluginInterface 
           '#title' => $entity_type->getLabel(),
         ];
 
-        $bundles = $this->entityTypeManager->getBundleInfo($entity_type_key);
+        $bundles = $this->bundleInfo->getBundleInfo($entity_type_key);
         foreach ($bundles as $bundle_key => $bundle) {
           if (!empty($vmh_settings[$entity_type_key])
             && isset($vmh_settings[$entity_type_key][$bundle_key])
@@ -306,7 +342,7 @@ class VarbaseMediaHeaderBlock extends BlockBase implements BlockPluginInterface 
     $values = $form_state->getValues();
 
     // Save configs for each entity type.
-    $vmh_settings = $this->configFactory('varbase_media_header.settings')
+    $vmh_settings = (array) $this->configFactory->get('varbase_media_header.settings')
       ->get('varbase_media_header_settings');
 
     $entity_info = $this->entityTypeManager->getDefinitions();
@@ -314,7 +350,7 @@ class VarbaseMediaHeaderBlock extends BlockBase implements BlockPluginInterface 
       if (!empty($vmh_settings[$entity_type_key])
         && isset($vmh_settings[$entity_type_key])) {
 
-        $bundles = $this->entityTypeManager->getBundleInfo($entity_type_key);
+        $bundles = $this->bundleInfo->getBundleInfo($entity_type_key);
         foreach ($bundles as $bundle_key => $bundle) {
           if (!empty($vmh_settings[$entity_type_key])
             && isset($vmh_settings[$entity_type_key][$bundle_key])
