@@ -31,7 +31,7 @@
     "oomphinc/composer-installers-extender": "~1.0",
     "cweagans/composer-patches": "~1.0",
     "drupal/drupal-library-installer-plugin": "^0.3",
-    "drupal/varbase_media": "~6.6 || ~7.0"
+    "drupal/varbase_media": "~6.6 || ^7.18"
   },
   "extra": {
     "branch-alias": {
