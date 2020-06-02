@@ -8,4 +8,4 @@ project: varbase_media_header
 configure: varbase_media_header.settings
 core_version_requirement: ^8 || ^9
 dependencies:
-  - varbase_media:varbase_media (>= 6.6)
+  - varbase_media:varbase_media
