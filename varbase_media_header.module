@@ -93,6 +93,7 @@ function varbase_media_header_preprocess_block(&$variables) {
 
           $variables['content'] = '';
         }
+        $variables['#cache']['contexts'][] = 'url';
       }
     }
   }
