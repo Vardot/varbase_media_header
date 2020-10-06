@@ -18,9 +18,11 @@
 
   // Varbase Media Header fallback container background.
   .vmh-background {
-    min-height: $vmh-container-min-height;
-    @media screen and (min-width: map-get($grid-breakpoints, "lg")) {
-      min-height: $vmh-container-min-height-lg;
+    &:empty {
+      min-height: $vmh-container-min-height;
+      @media screen and (min-width: map-get($grid-breakpoints, "lg")) {
+        min-height: $vmh-container-min-height-lg;
+      }
     }
 
     top: 0;

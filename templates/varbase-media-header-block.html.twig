@@ -29,10 +29,6 @@
       </div>
     </div>
   </div>
-  <div class="vmh-background">
-    {# Background media #}
-    {% if vmh_background_media %}
-      {{ vmh_background_media }}
-    {% endif %}
-  </div>
+  {# Background media #}
+  <div class="vmh-background">{% if vmh_background_media %}{{ vmh_background_media }}{% endif %}</div>
 </header>
