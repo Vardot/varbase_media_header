@@ -3,6 +3,6 @@ description: 'This app populates the universal implementation of media header pa
 type: module
 package: Varbase
 configure: varbase_media_header.settings
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^9
 dependencies:
   - varbase_media:varbase_media

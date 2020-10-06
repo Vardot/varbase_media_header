@@ -1,7 +1,7 @@
 {
   "name": "varbase_media_header",
   "private": true,
-  "version": "8.7.0",
+  "version": "9.0.0",
   "description": "Varbase Media Header",
   "main": "index.js",
   "scripts": {
