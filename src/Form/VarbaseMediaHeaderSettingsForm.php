@@ -12,7 +12,7 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 
 /**
- * VarbaseMediaHeaderSettingsForm Class.
+ * Varbase Media Header Settings Form Class.
  */
 class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
 
