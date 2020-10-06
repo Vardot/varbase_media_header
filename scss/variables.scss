@@ -22,7 +22,7 @@ $grid-breakpoints: (
 
 // Varbase Media Header container height.
 
-$vmh-container-v-padding: 60px;
+$vmh-container-v-padding: 3.75rem;
 
 $vmh-container-min-height: 300px;
 $vmh-container-max-height: 300px;
@@ -30,8 +30,8 @@ $vmh-container-max-height: 300px;
 $vmh-container-min-height-lg: 300px;
 $vmh-container-max-height-lg: 300px;
 
-$vmh-container-top-margin: 0px;
-$vmh-container-bottom-margin: 10px;
+$vmh-container-top-margin: 0;
+$vmh-container-bottom-margin: 0.6875rem;
 
 // Varbase Media Header fallback container background color.
 $vmh-fullback-container-background-color: #338ec7;
@@ -41,10 +41,10 @@ $vmh-content-text-color: #fff;
 
 // Varbase Media Header title style.
 $vmh-title-color: #fff;
-$vmh-title-font-size: 30px;
-$vmh-title-font-size-lg: 58px;
+$vmh-title-font-size: 1.875rem;
+$vmh-title-font-size-lg: 3.625rem;
 
 // Varbase Media Header breadcrumb style.
 $vmh-breadcrumb-color: #fff;
-$vmh-breadcrumb-font-size: 12px;
-$vmh-breadcrumb-font-size-lg: 14px;
+$vmh-breadcrumb-font-size: 0.75rem;
+$vmh-breadcrumb-font-size-lg: 0.875rem;

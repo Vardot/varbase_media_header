@@ -9,7 +9,7 @@
   justify-content: center;
   align-items: center;
   background-color: $vmh-fullback-container-background-color;
-  margin-bottom: 40px;
+  @include margin-bottom(2.5rem);
 
   max-height: $vmh-container-max-height;
   @media screen and (min-width: map-get($grid-breakpoints, "lg")) {
@@ -143,8 +143,8 @@
   }
 
   .vmh-content {
-    padding-top: $vmh-container-v-padding;
-    padding-bottom: $vmh-container-v-padding;
+    @include padding-top($vmh-container-v-padding);
+    @include padding-bottom($vmh-container-v-padding);
   }
 
   // Varbase Media Header title.
@@ -152,8 +152,8 @@
     text-align: center;
     color: $vmh-content-text-color;
     font-weight: bolder;
-    padding-left: 15px;
-    padding-right: 15px;
+    @include padding-left(0.9375rem);
+    @include padding-right(0.9375rem);
     @include font-size($vmh-title-font-size);
 
     @media screen and (min-width: map-get($grid-breakpoints, "lg")) {
