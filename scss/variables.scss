@@ -23,11 +23,12 @@ $grid-breakpoints: (
 // Varbase Media Header container height.
 
 $vmh-container-v-padding: 3.75rem;
+$vmh-container-h-padding: 1rem;
 
-$vmh-container-min-height: 300px;
+$vmh-container-min-height: 270px;
 $vmh-container-max-height: 300px;
 
-$vmh-container-min-height-lg: 300px;
+$vmh-container-min-height-lg: 270px;
 $vmh-container-max-height-lg: 300px;
 
 $vmh-container-top-margin: 0;

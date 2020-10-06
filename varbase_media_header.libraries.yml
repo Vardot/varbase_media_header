@@ -8,6 +8,7 @@ media_header_scripts:
     js/video.media-header.local.js: { }
     js/video.media-header.vimeo.js: { }
     js/video.media-header.youtube.js: { }
+    js/media-header.object-fit-polyfill.js: { }
   dependencies:
     - core/drupal
     - core/drupalSettings
@@ -15,3 +16,4 @@ media_header_scripts:
     - core/jquery.once
     - varbase_media/youtube_player
     - varbase_media/vimeo_player
+    - varbase_core/object-fit-polyfill
