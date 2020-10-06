@@ -81,19 +81,12 @@
 }
 
 .vmh-container .vmh-content {
-  padding-top: calc(1.5rem + 3vw);
-  padding-bottom: calc(1.5rem + 3vw);
+  padding: calc(1.5rem + 3vw) 1rem;
 }
 
 @media (min-width: 1200px) {
   .vmh-container .vmh-content {
-    padding-top: 3.75rem;
-  }
-}
-
-@media (min-width: 1200px) {
-  .vmh-container .vmh-content {
-    padding-bottom: 3.75rem;
+    padding: 3.75rem 1rem;
   }
 }
 

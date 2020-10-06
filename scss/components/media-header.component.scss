@@ -78,7 +78,7 @@
   }
 
   .vmh-content {
-    @include padding($vmh-container-v-padding, $vmh-container-h-padding);
+    @include padding($vmh-container-v-padding $vmh-container-h-padding);
   }
 
   // Varbase Media Header title.
