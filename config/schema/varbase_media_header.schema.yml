@@ -11,3 +11,6 @@ varbase_media_header.settings:
         bundle:
           type: string
           label: 'Bundle'
+    default_breadcrumbs:
+      type: boolean
+      label: 'Default breadcrumbs'

@@ -91,7 +91,16 @@ function varbase_media_header_preprocess_block(&$variables) {
           && !$node->get('field_page_header_style')->isEmpty()
           && $node->get('field_page_header_style')->value != 'standard') {
 
-          $variables['content'] = '';
+          $vmh_default_breadcrumbs = \Drupal::config('varbase_media_header.settings')->get('default_breadcrumbs');
+
+          if ($variables['plugin_id'] == 'system_breadcrumb_block'
+            && isset($vmh_default_breadcrumbs)
+            && $vmh_default_breadcrumbs == FALSE) {
+            $variables['content'] = '';
+          }
+          elseif ($variables['plugin_id'] == 'page_title_block') {
+            $variables['content'] = '';
+          }
         }
         $variables['#cache']['contexts'][] = 'url';
       }
