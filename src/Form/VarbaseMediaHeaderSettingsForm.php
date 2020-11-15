@@ -112,11 +112,20 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
           '#title' => $entity_type->get("name"),
           '#options' => $bundle_options,
           '#default_value' => !empty($vmh_settings[$entity_type_key]) ?
-          array_keys(array_filter($vmh_settings[$entity_type_key])) : [],
+            array_keys(array_filter($vmh_settings[$entity_type_key])) : [],
         ];
       }
 
     }
+
+    $vmh_default_breadcrumbs = $config->get('default_breadcrumbs');
+    $form['default_breadcrumbs'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Default breadcrumbs'),
+      '#default_value' => !empty($vmh_default_breadcrumbs) ?
+        $vmh_default_breadcrumbs : FALSE,
+      '#description' => $this->t('Hide breadcrumbs from varbase media header.'),
+    ];
 
     return parent::buildForm($form, $form_state);
   }
@@ -125,8 +134,14 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
+    // Entity types which are going to use the varbase media header.
     $this->config('varbase_media_header.settings')
       ->set('varbase_media_header_settings', $form_state->getValue('varbase_media_header_settings'))
+      ->save();
+
+    // Save the settings value for the Default breadcrubs.
+    $this->config('varbase_media_header.settings')
+      ->set('default_breadcrumbs', $form_state->getValue('default_breadcrumbs'))
       ->save();
 
     $this->applyDefaultVarbaseMediaHeaderSettingsForActivatedEntityTypes();

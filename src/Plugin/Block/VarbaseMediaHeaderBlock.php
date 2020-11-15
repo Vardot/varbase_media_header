@@ -218,7 +218,12 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
                || is_bool($access_result)
                && !$access_result)) {
 
-              $vmh_page_breadcrumbs = $plugin_block->build();
+              $vmh_default_breadcrumbs = \Drupal::config('varbase_media_header.settings')->get('default_breadcrumbs');
+
+              if (isset($vmh_default_breadcrumbs)
+                  && $vmh_default_breadcrumbs == FALSE) {
+                $vmh_page_breadcrumbs = $plugin_block->build();
+              }
             }
 
             $media_field_name = $config['vmh_node'][$node->bundle()];
@@ -253,9 +258,9 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
                   'contexts' => $this->getCacheContexts(),
                   'max-age' => $this->getCacheMaxAge(),
                 ],
-                '#vmh_page_title' => $vmh_page_title,
-                '#vmh_page_breadcrumbs' => $vmh_page_breadcrumbs,
-                '#vmh_background_media' => $vmh_background_media,
+                '#vmh_page_title' => (!empty($vmh_page_title) ? $vmh_page_title : NULL),
+                '#vmh_page_breadcrumbs' => (!empty($vmh_page_breadcrumbs) ? $vmh_page_breadcrumbs : NULL),
+                '#vmh_background_media' => (!empty($vmh_background_media) ? $vmh_background_media : NULL),
               ],
             ];
           }
