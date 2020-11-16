@@ -69,7 +69,7 @@ function varbase_media_header_install() {
  */
 function varbase_media_header_update_87001() {
   // Save the settings value for the hide breadcrumbs.
-  \Drupal::config('varbase_media_header.settings')
+  \Drupal::configFactory()->getEditable('varbase_media_header.settings')
     ->set('hide_breadcrumbs', FALSE)
     ->save();
 }
