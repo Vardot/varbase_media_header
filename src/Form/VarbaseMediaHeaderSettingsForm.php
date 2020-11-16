@@ -10,6 +10,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
+use Drupal\Core\Url;
 
 /**
  * Varbase Media Header Settings Form Class.
@@ -118,13 +119,14 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
 
     }
 
-    $vmh_default_breadcrumbs = $config->get('default_breadcrumbs');
-    $form['default_breadcrumbs'] = [
+    $vmh_hide_breadcrumbs = $config->get('hide_breadcrumbs');
+    $block_layout_admin_link = '<a href="' . Url::fromRoute('block.admin_display')->toString() . '">' . $this->t('Block layout') . '</a>' ;
+    $form['hide_breadcrumbs'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Default breadcrumbs'),
-      '#default_value' => !empty($vmh_default_breadcrumbs) ?
-        $vmh_default_breadcrumbs : FALSE,
-      '#description' => $this->t('Hide breadcrumbs from varbase media header.'),
+      '#title' => $this->t('Hide breadcrumbs'),
+      '#default_value' => !empty($vmh_hide_breadcrumbs) ?
+        $vmh_hide_breadcrumbs : FALSE,
+      '#description' => $this->t('Choosing this option will prevent the breadcrumbs from appearing in the Media Header automatically. You can still control where the breadcrumbs appear using the normal block placement from') . ' ' . $block_layout_admin_link . ' ' . $this->t('page.'),
     ];
 
     return parent::buildForm($form, $form_state);
@@ -135,13 +137,10 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     // Entity types which are going to use the varbase media header.
+    // And the settings value for the hide breadcrumbs.
     $this->config('varbase_media_header.settings')
       ->set('varbase_media_header_settings', $form_state->getValue('varbase_media_header_settings'))
-      ->save();
-
-    // Save the settings value for the Default breadcrubs.
-    $this->config('varbase_media_header.settings')
-      ->set('default_breadcrumbs', $form_state->getValue('default_breadcrumbs'))
+      ->set('hide_breadcrumbs', $form_state->getValue('hide_breadcrumbs'))
       ->save();
 
     $this->applyDefaultVarbaseMediaHeaderSettingsForActivatedEntityTypes();
