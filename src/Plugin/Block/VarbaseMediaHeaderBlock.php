@@ -218,10 +218,10 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
                || is_bool($access_result)
                && !$access_result)) {
 
-              $vmh_default_breadcrumbs = \Drupal::config('varbase_media_header.settings')->get('default_breadcrumbs');
+              $vmh_hide_breadcrumbs = $this->configFactory->get('varbase_media_header.settings')->get('hide_breadcrumbs');
 
-              if (isset($vmh_default_breadcrumbs)
-                  && $vmh_default_breadcrumbs == FALSE) {
+              if (isset($vmh_hide_breadcrumbs)
+                  && $vmh_hide_breadcrumbs == FALSE) {
                 $vmh_page_breadcrumbs = $plugin_block->build();
               }
             }
