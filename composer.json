@@ -27,10 +27,9 @@
     }
   },
   "require": {
-    "composer/installers": "~1.0",
-    "oomphinc/composer-installers-extender": "~1.0",
+    "composer/installers": "~1.0 || ~2.0",
+    "oomphinc/composer-installers-extender": "~1.0 || ~2.0",
     "cweagans/composer-patches": "~1.0",
-    "drupal/drupal-library-installer-plugin": "^0.3",
     "drupal/core": "^8.8.0 || ~9.0.0",
     "drupal/varbase_media": "~7.0"
   },
@@ -38,10 +37,6 @@
     "branch-alias": {
       "dev-8.x-7.x": "8.7.x-dev"
     },
-    "installer-types": [
-      "bower-asset",
-      "npm-asset"
-    ],
     "enable-patching": true,
     "composer-exit-on-patch-failure": true
   }
