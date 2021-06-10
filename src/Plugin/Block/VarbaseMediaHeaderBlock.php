@@ -22,6 +22,7 @@ use Drupal\Core\Block\BlockManagerInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityDisplayRepositoryInterface;
+use Drupal\media\MediaInterface;
 
 /**
  * Provides a Varbase Media Header block.
@@ -244,8 +245,11 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
 
               if (!empty($node_field_media)) {
                 $node_field_media_entity = Media::load($node_field_media[0]['target_id']);
-                $node_field_media_build = $this->entityTypeManager->getViewBuilder('media')->view($node_field_media_entity, $config['vmh_media_view_mode']);
-                $vmh_background_media = $this->renderer->render($node_field_media_build);
+
+                if ($node_field_media_entity instanceof MediaInterface) {
+                  $node_field_media_build = $this->entityTypeManager->getViewBuilder('media')->view($node_field_media_entity, $config['vmh_media_view_mode']);
+                  $vmh_background_media = $this->renderer->render($node_field_media_build);
+                }
               }
             }
 
