@@ -1,4 +1,4 @@
 varbase_media_header.settings:
-  title: 'Varbase Media Header settings'
+  title: "Varbase Media Header settings"
   route_name: varbase_core.settings_index
   base_route: varbase_media_header.settings

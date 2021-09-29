@@ -11,14 +11,14 @@ id: node.TOKEN_NODE.field_media
 field_name: field_media
 entity_type: node
 bundle: TOKEN_NODE
-label: 'Main media'
-description: ''
+label: "Main media"
+description: ""
 required: false
 translatable: true
-default_value: {  }
-default_value_callback: ''
+default_value: {}
+default_value_callback: ""
 settings:
-  handler: 'default:media'
+  handler: "default:media"
   handler_settings:
     target_bundles:
       image: image

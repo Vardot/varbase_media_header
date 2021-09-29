@@ -8,7 +8,6 @@ use Drupal\node\NodeInterface;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Cache\Cache;
-use Drupal\media\Entity\Media;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
@@ -244,7 +243,7 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
               }
 
               if (!empty($node_field_media)) {
-                $node_field_media_entity = Media::load($node_field_media[0]['target_id']);
+                $node_field_media_entity = $this->entityTypeManager->getStorage('media')->load($node_field_media[0]['target_id']);
 
                 if ($node_field_media_entity instanceof MediaInterface) {
                   $node_field_media_build = $this->entityTypeManager->getViewBuilder('media')->view($node_field_media_entity, $config['vmh_media_view_mode']);

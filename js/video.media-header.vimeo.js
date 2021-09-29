@@ -3,11 +3,11 @@
  * Behaviors of Varbase Media Header for vimeo embeded videos scripts.
  */
 
-(function($, _, Drupal) {
+(function ($, _, Drupal) {
   Drupal.behaviors.varbaseMediaHeader_vimeo = {
-    attach: function(context) {
+    attach: function (context) {
       if (context === window.document) {
-        $(document).ready(function() {
+        $(document).ready(function () {
           if (
             $(".vmh-background").find(
               '.media--type-remote-video iframe[src*="vimeo.com"]'

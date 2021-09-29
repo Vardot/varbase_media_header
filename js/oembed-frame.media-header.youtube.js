@@ -4,7 +4,7 @@ function ready(fn) {
   } else if (document.addEventListener) {
     document.addEventListener("DOMContentLoaded", fn);
   } else {
-    document.attachEvent("onreadystatechange", function() {
+    document.attachEvent("onreadystatechange", function () {
       if (document.readyState !== "loading") fn();
     });
   }
@@ -15,7 +15,7 @@ tag.src = "//youtube.com/player_api";
 const firstScriptTag = document.getElementsByTagName("script")[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-ready(function() {
+ready(function () {
   const mediaIframe = document.querySelector("iframe");
   mediaIframe.setAttribute("id", "media-oembed-iframe");
 
@@ -31,7 +31,7 @@ ready(function() {
         !window.loadingPlayer
       ) {
         window.loadingPlayer = true;
-        window.onYouTubeIframeAPIReady = function() {
+        window.onYouTubeIframeAPIReady = function () {
           handlePlayer();
         };
       } else {

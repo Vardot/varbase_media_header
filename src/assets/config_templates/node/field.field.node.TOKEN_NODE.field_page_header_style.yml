@@ -10,13 +10,12 @@ id: node.TOKEN_NODE.field_page_header_style
 field_name: field_page_header_style
 entity_type: node
 bundle: TOKEN_NODE
-label: 'Page header style'
-description: ''
+label: "Page header style"
+description: ""
 required: true
 translatable: false
 default_value:
-  -
-    value: standard
-default_value_callback: ''
-settings: {  }
+  - value: standard
+default_value_callback: ""
+settings: {}
 field_type: list_string

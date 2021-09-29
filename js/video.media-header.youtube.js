@@ -3,11 +3,11 @@
  * Behaviors of Varbase Media Header for Youtube video scripts.
  */
 
-(function($, _, Drupal) {
+(function ($, _, Drupal) {
   Drupal.behaviors.varbaseMediaHeader_youtube = {
-    attach: function(context) {
+    attach: function (context) {
       if (context === window.document) {
-        $(document).ready(function() {
+        $(document).ready(function () {
           if (
             $(".vmh-background").find(
               '.media--type-remote-video iframe[src*="youtube.com"]'

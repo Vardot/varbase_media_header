@@ -113,19 +113,19 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
           '#title' => $entity_type->get("name"),
           '#options' => $bundle_options,
           '#default_value' => !empty($vmh_settings[$entity_type_key]) ?
-            array_keys(array_filter($vmh_settings[$entity_type_key])) : [],
+          array_keys(array_filter($vmh_settings[$entity_type_key])) : [],
         ];
       }
 
     }
 
     $vmh_hide_breadcrumbs = $config->get('hide_breadcrumbs');
-    $block_layout_admin_link = '<a href="' . Url::fromRoute('block.admin_display')->toString() . '">' . $this->t('Block layout') . '</a>' ;
+    $block_layout_admin_link = '<a href="' . Url::fromRoute('block.admin_display')->toString() . '">' . $this->t('Block layout') . '</a>';
     $form['hide_breadcrumbs'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Hide breadcrumbs'),
       '#default_value' => !empty($vmh_hide_breadcrumbs) ?
-        $vmh_hide_breadcrumbs : FALSE,
+      $vmh_hide_breadcrumbs : FALSE,
       '#description' => $this->t('Choosing this option will prevent the breadcrumbs from appearing in the Media Header automatically. You can still control where the breadcrumbs appear using the normal block placement from') . ' ' . $block_layout_admin_link . ' ' . $this->t('page.'),
     ];
 

@@ -21,11 +21,11 @@ third_party_settings:
         wrappers:
           ds_content: div
         outer_wrapper: div
-        attributes: ''
-        link_attribute: ''
-        link_custom: ''
+        attributes: ""
+        link_attribute: ""
+        link_custom: ""
         classes:
-          layout_class: {  }
+          layout_class: {}
     regions:
       ds_content:
         - field_media_video_file
@@ -51,24 +51,24 @@ content:
         ft:
           id: expert
           settings:
-            lb: ''
-            prefix: ''
-            lbw-el: ''
-            lbw-cl: ''
-            lbw-at: ''
+            lb: ""
+            prefix: ""
+            lbw-el: ""
+            lbw-cl: ""
+            lbw-at: ""
             ow: true
-            ow-el: ''
-            ow-cl: 'varbase-video-player embed-responsive embed-responsive-16by9'
-            ow-at: ''
+            ow-el: ""
+            ow-cl: "varbase-video-player embed-responsive embed-responsive-16by9"
+            ow-at: ""
             ow-def-at: true
             ow-def-cl: true
-            fis-el: ''
-            fis-cl: ''
-            fis-at: ''
-            fi-el: ''
-            fi-cl: ''
-            fi-at: ''
-            suffix: ''
+            fis-el: ""
+            fis-cl: ""
+            fis-at: ""
+            fi-el: ""
+            fi-cl: ""
+            fi-at: ""
+            suffix: ""
             lbw: false
             lb-col: false
             fis: false

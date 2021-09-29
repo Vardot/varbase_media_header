@@ -1,7 +1,7 @@
 varbase_media_header.settings:
-  path: '/admin/config/varbase/varbase-media-header'
+  path: "/admin/config/varbase/varbase-media-header"
   defaults:
     _form: '\Drupal\varbase_media_header\Form\VarbaseMediaHeaderSettingsForm'
-    _title: 'Varbase Media Header Settings'
+    _title: "Varbase Media Header Settings"
   requirements:
-    _permission: 'administer varbase media header'
+    _permission: "administer varbase media header"

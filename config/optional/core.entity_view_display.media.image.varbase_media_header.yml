@@ -19,8 +19,8 @@ content:
     label: hidden
     settings:
       responsive_image_style: de2e_standard
-      image_link: ''
-    third_party_settings: {  }
+      image_link: ""
+    third_party_settings: {}
     type: responsive_image
     region: content
 hidden:

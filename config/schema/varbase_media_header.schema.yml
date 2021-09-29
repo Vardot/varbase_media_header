@@ -1,16 +1,16 @@
 varbase_media_header.settings:
   type: config_object
-  label: 'Varbase Media Header settings'
+  label: "Varbase Media Header settings"
   mapping:
     varbase_media_header_settings:
       type: sequence
-      label: 'Entities'
+      label: "Entities"
       entity_type_bundles:
         type: sequence
-        label: 'Entity type bundles'
+        label: "Entity type bundles"
         bundle:
           type: string
-          label: 'Bundle'
+          label: "Bundle"
     hide_breadcrumbs:
       type: boolean
-      label: 'Hide breadcrumbs'
+      label: "Hide breadcrumbs"

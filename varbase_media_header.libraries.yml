@@ -1,14 +1,14 @@
 media_header_styles:
   css:
     component:
-      css/components/media-header.component.css: { }
+      css/components/media-header.component.css: {}
 
 media_header_scripts:
   js:
-    js/video.media-header.local.js: { }
-    js/video.media-header.vimeo.js: { }
-    js/video.media-header.youtube.js: { }
-    js/media-header.object-fit-polyfill.js: { }
+    js/video.media-header.local.js: {}
+    js/video.media-header.vimeo.js: {}
+    js/video.media-header.youtube.js: {}
+    js/media-header.object-fit-polyfill.js: {}
   dependencies:
     - core/drupal
     - core/drupalSettings

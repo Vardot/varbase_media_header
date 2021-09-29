@@ -3,9 +3,9 @@
  * Behaviors of Varbase Media Header for local video scripts.
  */
 
-(function($, _, Drupal) {
+(function ($, _, Drupal) {
   Drupal.behaviors.varbaseMediaHeader_local_video = {
-    attach: function() {
+    attach: function () {
       const player = $(".vmh-background video").get(0);
       // Play local video on load of the page.
       if (player) {
