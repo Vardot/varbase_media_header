@@ -1,7 +1,7 @@
 {
   "name": "varbase_media_header",
   "private": true,
-  "description": "Varbase Media Header",
+  "description": "Varbase Media Header : Populates the universal media header style on top of web pages. Which lets site builders activate that for content types.",
   "license": "GPL-2.0",
   "main": "gulpfile.js",
   "engines": {

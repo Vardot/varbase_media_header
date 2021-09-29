@@ -1,5 +1,5 @@
 name: "Varbase Media Header"
-description: "This app populates the universal implementation of media header page style which let site builders activate that for content types."
+description: "Populates the universal media header style on top of web pages. Which lets site builders activate that for content types."
 type: module
 package: Varbase
 configure: varbase_media_header.settings

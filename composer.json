@@ -1,6 +1,6 @@
 {
   "name": "drupal/varbase_media_header",
-  "description": "This app populates the universal implementation of media header page style which let site builders activate that for content types.",
+  "description": "Populates the universal media header style on top of web pages. Which lets site builders activate that for content types.",
   "type": "drupal-module",
   "homepage": "https://www.drupal.org/project/varbase_media_header",
   "license": "GPL-2.0-or-later",
