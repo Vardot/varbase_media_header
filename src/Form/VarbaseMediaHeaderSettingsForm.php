@@ -11,6 +11,8 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Url;
+use Vardot\Entity\EntityDefinitionUpdateManager;
+use Drupal\Core\DependencyInjection\ClassResolverInterface;
 
 /**
  * Varbase Media Header Settings Form Class.
@@ -39,6 +41,13 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
   protected $bundleInfo;
 
   /**
+   * The class resolver.
+   *
+   * @var \Drupal\Core\DependencyInjection\ClassResolverInterface
+   */
+  protected $classResolver;
+
+  /**
    * Constructs a new Varbase Media Header Block.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
@@ -49,12 +58,15 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
    *   The entity type manager service.
    * @param \Drupal\Core\Entity\EntityTypeBundleInfoInterface $bundle_info
    *   The entity type bundle service.
+   * @param \Drupal\Core\DependencyInjection\ClassResolverInterface $class_resolver
+   *   (optional) The class resolver.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, ModuleHandlerInterface $module_handler, EntityTypeManagerInterface $entity_type_manager, EntityTypeBundleInfoInterface $bundle_info) {
+  public function __construct(ConfigFactoryInterface $config_factory, ModuleHandlerInterface $module_handler, EntityTypeManagerInterface $entity_type_manager, EntityTypeBundleInfoInterface $bundle_info, ClassResolverInterface $class_resolver) {
     parent::__construct($config_factory);
     $this->moduleHandler = $module_handler;
     $this->entityTypeManager = $entity_type_manager;
     $this->bundleInfo = $bundle_info;
+    $this->classResolver = $class_resolver;
   }
 
   /**
@@ -65,7 +77,8 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
       $container->get('config.factory'),
       $container->get('module_handler'),
       $container->get('entity_type.manager'),
-      $container->get('entity_type.bundle.info')
+      $container->get('entity_type.bundle.info'),
+      $container->get('class_resolver')
     );
   }
 
@@ -249,6 +262,11 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
         }
       }
     }
+
+    // Entity updates to clear up any mismatched entity and/or field definitions
+    // And Fix changes were detected in the entity type and field definitions.
+    $this->classResolver->getInstanceFromDefinition(EntityDefinitionUpdateManager::class)
+      ->applyUpdates();
 
     // Flush all caches.
     drupal_flush_all_caches();
