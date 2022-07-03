@@ -122,6 +122,8 @@ function varbase_media_header_theme($existing, $type, $theme, $path) {
         'vmh_page_title' => NULL,
         'vmh_page_breadcrumbs' => NULL,
         'vmh_background_media' => NULL,
+        'vmh_media_type' => NULL,
+        'provider' => NULL,
       ],
     ],
     'media_oembed_iframe__remote_video__varbase_media_header' => [
