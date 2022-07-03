@@ -248,6 +248,10 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
                 if ($node_field_media_entity instanceof MediaInterface) {
                   $node_field_media_build = $this->entityTypeManager->getViewBuilder('media')->view($node_field_media_entity, $config['vmh_media_view_mode']);
                   $vmh_background_media = $this->renderer->render($node_field_media_build);
+                  $vmh_media_type = $node_field_media_entity->bundle();
+                  if (isset($node_field_media_entity->field_provider) && !empty($node_field_media_entity->field_provider)) {
+                    $provider = $node_field_media_entity->field_provider->value;
+                  }
                 }
               }
             }
@@ -264,6 +268,8 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
                 '#vmh_page_title' => (!empty($vmh_page_title) ? $vmh_page_title : NULL),
                 '#vmh_page_breadcrumbs' => (!empty($vmh_page_breadcrumbs) ? $vmh_page_breadcrumbs : NULL),
                 '#vmh_background_media' => (!empty($vmh_background_media) ? $vmh_background_media : NULL),
+                '#vmh_media_type' => (!empty($vmh_media_type) ? $vmh_media_type : NULL),
+                '#provider' => (!empty($provider) ? $provider : NULL),
               ],
             ];
           }
