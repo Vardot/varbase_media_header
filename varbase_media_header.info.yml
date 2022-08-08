@@ -3,6 +3,6 @@ description: "Populates the universal media header style on top of web pages. Wh
 type: module
 package: Varbase
 configure: varbase_media_header.settings
-core_version_requirement: ^9
+core_version_requirement: ^9 || ^10
 dependencies:
   - varbase_media:varbase_media
