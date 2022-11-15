@@ -11,21 +11,20 @@ media_header_scripts:
     - core/drupalSettings
     - core/jquery
     - core/jquery.once
-    - varbase_core/object-fit-polyfill
 
 # Behaviors of Varbase media header for local video scripts.
 local_video_header:
   js:
     js/video.media-header.local.js: {}
 
-# Behaviors of Varbase media header for Youtube embeded video scripts.
+# Behaviors of Varbase media header for Youtube embedded video scripts.
 youtube_video_header:
   js:
     js/video.media-header.youtube.js: { weight: -1 }
   dependencies:
     - varbase_media/youtube_player
 
-# Behaviors of Varbase media header for vimeo embeded videos scripts.
+# Behaviors of Varbase media header for vimeo embedded videos scripts.
 vimeo_video_header:
   js:
     js/video.media-header.vimeo.js: { weight: -1 }
