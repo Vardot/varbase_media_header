@@ -107,7 +107,8 @@
   text-align: center;
   text-transform: uppercase;
   color: #fff;
-  background: none;
+  background: none !important;
+  background-color: transparent !important;
   font-size: 0.75rem;
 }
 .vmh-container .vmh-breadcrumb .breadcrumb a,
