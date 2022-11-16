@@ -4,13 +4,10 @@ media_header_styles:
       css/components/media-header.component.css: {}
 
 media_header_scripts:
-  js:
-    js/media-header.object-fit-polyfill.js: {}
   dependencies:
     - core/drupal
     - core/drupalSettings
-    - core/jquery
-    - core/jquery.once
+    - core/once
 
 # Behaviors of Varbase media header for local video scripts.
 local_video_header:

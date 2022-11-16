@@ -30,6 +30,8 @@
     bottom: 0;
     left: 0;
     overflow: hidden;
+    width: 100%;
+    height: 100%;
 
     > img,
     > picture,
@@ -51,10 +53,8 @@
     }
 
     .varbase-video-player {
-      &.embed-responsive {
-        width: 100vw;
-        height: 100%;
-      }
+      width: 100vw;
+      height: 100%;
     }
   }
  
@@ -69,7 +69,6 @@
     right: 0;
     display: flex;
     -webkit-flex: 1; /* Safari 6.1+ */
-    -ms-flex: 1; /* IE 10 */
     flex: 1;
     flex-flow: wrap;
     flex-direction: row;
