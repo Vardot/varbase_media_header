@@ -4,6 +4,6 @@ dependencies:
   module:
     - media
 id: media.varbase_media_header
-label: "Media Header"
+label: 'Media Header'
 targetEntityType: media
 cache: true

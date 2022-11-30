@@ -40,10 +40,11 @@ content:
     type: file_video
     label: hidden
     settings:
-      controls: flase
+      controls: false
       autoplay: true
       loop: true
       multiple_file_display_type: tags
+      playsinline: false
       muted: true
       width: 1600
       height: 900
@@ -60,7 +61,7 @@ content:
             lb-col: false
             ow: true
             ow-el: ''
-            ow-cl: 'varbase-video-player embed-responsive embed-responsive-16by9'
+            ow-cl: 'varbase-video-player ratio ratio-16x9'
             ow-at: ''
             ow-def-at: true
             ow-def-cl: true
@@ -84,6 +85,7 @@ hidden:
   created: true
   field_media_cover_image: true
   field_media_in_library: true
+  langcode: true
   name: true
   search_api_excerpt: true
   thumbnail: true

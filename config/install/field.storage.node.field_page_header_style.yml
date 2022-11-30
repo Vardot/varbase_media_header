@@ -10,15 +10,17 @@ entity_type: node
 type: list_string
 settings:
   allowed_values:
-    - value: standard
+    -
+      value: standard
       label: Standard
-    - value: media_header
-      label: "Media Header"
-  allowed_values_function: ""
+    -
+      value: media_header
+      label: 'Media Header'
+  allowed_values_function: ''
 module: options
 locked: false
 cardinality: 1
 translatable: true
-indexes: {}
+indexes: {  }
 persist_with_no_fields: false
 custom_storage: false
