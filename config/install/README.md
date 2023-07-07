@@ -1,1 +1,1 @@
-Moved to optional
+Moved to managed and assets config templates
