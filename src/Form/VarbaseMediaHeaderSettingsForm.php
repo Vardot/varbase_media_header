@@ -12,6 +12,7 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Url;
 use Vardot\Entity\EntityDefinitionUpdateManager;
+use Vardot\Installer\ModuleInstallerFactory;
 use Drupal\Core\DependencyInjection\ClassResolverInterface;
 
 /**
@@ -188,6 +189,9 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
          && isset($vmh_settings[$entity_type_key][$bundle_key])
          && $vmh_settings[$entity_type_key][$bundle_key]) {
 
+          // Import managed Entity Type configs for supported entity types. Only when needed.
+          $this->importManagedEntityConfigs($entity_type_key);
+
           $config_name = "field.field." . $entity_type_key . "." . $bundle_key . ".field_page_header_style";
           if (!($this->configFactory->get($config_name) == NULL)) {
             $config_factory = $this->configFactory->getEditable($config_name);
@@ -270,6 +274,24 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
 
     // Flush all caches.
     drupal_flush_all_caches();
+  }
+
+  /**
+   * Import managed Entity Type configs for supported entity types. Only when needed.
+   */
+  public function importManagedEntityConfigs(string $entity_type_key) {
+    if ($this->configFactory->get('field.storage.' . $entity_type_key . '.field_media') == NULL) {
+      ModuleInstallerFactory::importConfigsFromList('varbase_media_header', ['field.storage.' . $entity_type_key . '.field_media'], 'config/managed/' . $entity_type_key);
+    }
+
+    if ($this->configFactory->get('field.storage.' . $entity_type_key . '.field_page_header_style') == NULL) {
+      ModuleInstallerFactory::importConfigsFromList('varbase_media_header', ['field.storage.' . $entity_type_key . '.field_page_header_style'], 'config/managed/' . $entity_type_key);
+    }
+
+    // Entity updates to clear up any mismatched entity and/or field definitions
+    // And Fix changes were detected in the entity type and field definitions.
+    $this->classResolver->getInstanceFromDefinition(EntityDefinitionUpdateManager::class)
+      ->applyUpdates();
   }
 
 }

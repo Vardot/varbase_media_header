@@ -18,7 +18,6 @@ function varbase_media_header_install() {
   ModuleInstallerFactory::installList('varbase_media_header');
 
   // Install optional configs.
-  ModuleInstallerFactory::importConfigsFromScanedDirectory('varbase_media_header', '/^field.storage.*\\.(yml)$/i');
   ModuleInstallerFactory::importConfigsFromScanedDirectory('varbase_media_header', '/^core.entity_view_display.*\\.(yml)$/i');
   ModuleInstallerFactory::importConfigsFromScanedDirectory('varbase_media_header', '/^.*(settings.yml)$/i');
 
