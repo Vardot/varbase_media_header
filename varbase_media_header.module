@@ -7,6 +7,7 @@
 
 use Drupal\node\NodeInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\taxonomy\TermInterface;
 
 /**
  * Implements hook_form_FORM_ID_alter().
@@ -80,16 +81,26 @@ function varbase_media_header_preprocess_block(&$variables) {
       && $active_theme == $current_theme) {
 
     $node = \Drupal::routeMatch()->getParameter('node');
-    if ($node instanceof NodeInterface) {
-      if (isset($node)) {
+    $taxonomy = \Drupal::routeMatch()->getParameter('taxonomy_term');
+
+    if ($node instanceof NodeInterface || $taxonomy instanceof TermInterface) {
+      if (isset($node) || isset($taxonomy)) {
+        if (isset($node)) {
+          $entity = $node;
+          $entity_type = $entity->getEntityType()->id();
+        }
+        elseif (isset($taxonomy)) {
+          $entity = $taxonomy;
+          $entity_type = $entity->getEntityType()->id();
+        }
 
         $vmh_settings = \Drupal::config('varbase_media_header.settings')->get('varbase_media_header_settings');
-        if (!empty($vmh_settings['node'])
-          && isset($vmh_settings['node'][$node->getType()])
-          && $vmh_settings['node'][$node->getType()]
-          && $node->hasField('field_page_header_style')
-          && !$node->get('field_page_header_style')->isEmpty()
-          && $node->get('field_page_header_style')->value != 'standard') {
+        if (!empty($vmh_settings[$entity_type])
+          && isset($vmh_settings[$entity_type][$entity->bundle()])
+          && $vmh_settings[$entity_type][$entity->bundle()]
+          && $entity->hasField('field_page_header_style')
+          && !$entity->get('field_page_header_style')->isEmpty()
+          && $entity->get('field_page_header_style')->value != 'standard') {
 
           $vmh_hide_breadcrumbs = \Drupal::config('varbase_media_header.settings')->get('hide_breadcrumbs');
 

@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_page_header_style
+    - term.vocabulary.TOKEN_TAXONOMY_TERM
+  module:
+    - options
+id: taxonomy_term.TOKEN_TAXONOMY_TERM.field_page_header_style
+field_name: field_page_header_style
+entity_type: taxonomy_term
+bundle: TOKEN_TAXONOMY_TERM
+label: "Page header style"
+description: ""
+required: true
+translatable: false
+default_value:
+  - value: standard
+default_value_callback: ""
+settings: {}
+field_type: list_string
