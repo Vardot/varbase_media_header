@@ -216,7 +216,7 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
       }
     }
 
-    if ($process
+    if ($process != FALSE
       && $entity->hasField('field_page_header_style')
       && !$entity->get('field_page_header_style')->isEmpty()
       && $entity->get('field_page_header_style')->value != 'standard') {

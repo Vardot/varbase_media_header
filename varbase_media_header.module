@@ -140,42 +140,46 @@ function varbase_media_header_preprocess_block(&$variables) {
       || $variables['plugin_id'] == 'system_breadcrumb_block')
       && $active_theme == $current_theme) {
 
+    $entity = FALSE;
+    $entity_type = FALSE;
+
     $node = \Drupal::routeMatch()->getParameter('node');
-    $taxonomy = \Drupal::routeMatch()->getParameter('taxonomy_term');
 
-    if ($node instanceof NodeInterface || $taxonomy instanceof TermInterface) {
-      if (isset($node) || isset($taxonomy)) {
-        if (isset($node)) {
-          $entity = $node;
-          $entity_type = $entity->getEntityType()->id();
-        }
-        elseif (isset($taxonomy)) {
-          $entity = $taxonomy;
-          $entity_type = $entity->getEntityType()->id();
-        }
-
-        $vmh_settings = \Drupal::config('varbase_media_header.settings')->get('varbase_media_header_settings');
-        if (!empty($vmh_settings[$entity_type])
-          && isset($vmh_settings[$entity_type][$entity->bundle()])
-          && $vmh_settings[$entity_type][$entity->bundle()]
-          && $entity->hasField('field_page_header_style')
-          && !$entity->get('field_page_header_style')->isEmpty()
-          && $entity->get('field_page_header_style')->value != 'standard') {
-
-          $vmh_hide_breadcrumbs = \Drupal::config('varbase_media_header.settings')->get('hide_breadcrumbs');
-
-          if ($variables['plugin_id'] == 'system_breadcrumb_block'
-            && isset($vmh_hide_breadcrumbs)
-            && $vmh_hide_breadcrumbs == FALSE) {
-            $variables['content'] = '';
-          }
-          elseif ($variables['plugin_id'] == 'page_title_block') {
-            $variables['content'] = '';
-          }
-        }
-        $variables['#cache']['contexts'][] = 'url';
+    if ($node instanceof NodeInterface && isset($node)) {
+      $entity = $node;
+      $entity_type = $entity->getEntityType()->id();
+    }
+    else {
+      $taxonomy = \Drupal::routeMatch()->getParameter('taxonomy_term');
+      if ($taxonomy instanceof TermInterface && isset($taxonomy)) {
+        $entity = $taxonomy;
+        $entity_type = $entity->getEntityType()->id();
       }
     }
+
+    if ($entity_type != FALSE) {
+      $vmh_settings = \Drupal::config('varbase_media_header.settings')->get('varbase_media_header_settings');
+      if (!empty($vmh_settings[$entity_type])
+        && isset($vmh_settings[$entity_type][$entity->bundle()])
+        && $vmh_settings[$entity_type][$entity->bundle()]
+        && $entity->hasField('field_page_header_style')
+        && !$entity->get('field_page_header_style')->isEmpty()
+        && $entity->get('field_page_header_style')->value != 'standard') {
+
+        $vmh_hide_breadcrumbs = \Drupal::config('varbase_media_header.settings')->get('hide_breadcrumbs');
+
+        if ($variables['plugin_id'] == 'system_breadcrumb_block'
+          && isset($vmh_hide_breadcrumbs)
+          && $vmh_hide_breadcrumbs == FALSE) {
+          $variables['content'] = '';
+        }
+        elseif ($variables['plugin_id'] == 'page_title_block') {
+          $variables['content'] = '';
+        }
+      }
+      $variables['#cache']['contexts'][] = 'url';
+    }
+
   }
 
 }
