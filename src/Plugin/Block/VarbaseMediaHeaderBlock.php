@@ -198,8 +198,8 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
   public function build() {
 
     $config = $this->getConfiguration();
-    $process = false;
-    $entity = false;
+    $process = FALSE;
+    $entity = FALSE;
 
     $node = $this->routeMatch->getParameter('node');
     if ($node instanceof NodeInterface && isset($node)) {
@@ -216,7 +216,7 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
       }
     }
 
-    if ($process
+    if ($process != FALSE
       && $entity->hasField('field_page_header_style')
       && !$entity->get('field_page_header_style')->isEmpty()
       && $entity->get('field_page_header_style')->value != 'standard') {
