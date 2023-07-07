@@ -1,0 +1,15 @@
+field_media:
+  weight: -10
+  settings:
+    media_types: {}
+  third_party_settings:
+    media_library_edit:
+      show_edit: "1"
+  type: media_library_widget
+  region: content
+field_page_header_style:
+  weight: -11
+  settings: {}
+  third_party_settings: {}
+  type: options_buttons
+  region: content

@@ -100,7 +100,7 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
 
     // Planed for allowed entity types to have node, taxonomy.
     // more other entity types if needed.
-    $allowed_entity_types = ['node'];
+    $allowed_entity_types = ['node', 'taxonomy_term'];
 
     $form['varbase_media_header_settings'] = [
       '#type' => 'fieldset',
