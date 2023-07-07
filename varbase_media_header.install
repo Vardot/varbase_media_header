@@ -28,6 +28,9 @@ function varbase_media_header_install() {
     ->getInstanceFromDefinition(EntityDefinitionUpdateManager::class)
     ->applyUpdates();
 
+  // Add permissions.
+  ModuleInstallerFactory::addPermissions('varbase_media_header');
+
 }
 
 /**
