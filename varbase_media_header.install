@@ -13,12 +13,13 @@ use Vardot\Installer\ModuleInstallerFactory;
  */
 function varbase_media_header_install() {
 
-  // Processer for install: in varbase_media_header.info.yml file.
+  // Processor for install: in varbase_media_header.info.yml file.
   // ---------------------------------------------------------------------------.
   ModuleInstallerFactory::installList('varbase_media_header');
 
   // Install optional configs.
   ModuleInstallerFactory::importConfigsFromScanedDirectory('varbase_media_header', '/^field.storage.*\\.(yml)$/i');
+  ModuleInstallerFactory::importConfigsFromScanedDirectory('varbase_media_header', '/^core.entity_view_display.*\\.(yml)$/i');
   ModuleInstallerFactory::importConfigsFromScanedDirectory('varbase_media_header', '/^.*(settings.yml)$/i');
 
   // Entity updates to clear up any mismatched entity and/or field definitions
@@ -42,7 +43,7 @@ function varbase_media_header_update_87001() {
 /**
  * Issue #3291994: Change to conditionally.
  *
- * Aattach only needed local or remote video libraries.
+ * Attache only needed local or remote video libraries.
  */
 function varbase_media_header_update_90001() {
   $entity_view_display_media_video = \Drupal::service('config.factory')->getEditable('core.entity_view_display.media.video.varbase_media_header');
