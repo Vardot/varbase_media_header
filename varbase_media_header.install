@@ -19,6 +19,7 @@ function varbase_media_header_install() {
 
   // Install optional configs.
   ModuleInstallerFactory::importConfigsFromScanedDirectory('varbase_media_header', '/^field.storage.*\\.(yml)$/i');
+  ModuleInstallerFactory::importConfigsFromScanedDirectory('varbase_media_header', '/^core.entity_view_display.*\\.(yml)$/i');
   ModuleInstallerFactory::importConfigsFromScanedDirectory('varbase_media_header', '/^.*(settings.yml)$/i');
 
   // Entity updates to clear up any mismatched entity and/or field definitions

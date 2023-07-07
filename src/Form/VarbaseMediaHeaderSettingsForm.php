@@ -108,7 +108,7 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
       '#collapsible' => TRUE,
       '#collapsed' => FALSE,
       '#tree' => TRUE,
-      '#description' => $this->t('Enable varbase media header for these entity types and bundles.'),
+      '#description' => $this->t('Enable Varbase Media Header for these entity types and bundles.'),
     ];
 
     foreach ($entity_info as $entity_type_key => $entity_type) {
@@ -123,7 +123,7 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
 
         $form['varbase_media_header_settings'][$entity_type_key] = [
           '#type' => 'checkboxes',
-          '#title' => $entity_type->get("name"),
+          '#title' => $entity_type->get("name") . " " . $entity_type->getLabel(),
           '#options' => $bundle_options,
           '#default_value' => !empty($vmh_settings[$entity_type_key]) ?
           array_keys(array_filter($vmh_settings[$entity_type_key])) : [],

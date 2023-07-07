@@ -2,6 +2,7 @@ langcode: en
 status: true
 dependencies:
   module:
+    - media
     - node
     - options
 id: node.field_page_header_style
