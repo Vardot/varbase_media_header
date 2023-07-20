@@ -144,6 +144,9 @@ function varbase_media_header_preprocess_block(&$variables) {
     $entity_type = FALSE;
 
     $node = \Drupal::routeMatch()->getParameter('node');
+    if (empty($node)) {
+      $node = \Drupal::routeMatch()->getParameter('node_preview');
+    }
 
     if ($node instanceof NodeInterface && isset($node)) {
       $entity = $node;
