@@ -202,6 +202,10 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
     $entity = FALSE;
 
     $node = $this->routeMatch->getParameter('node');
+    if (empty($node)) {
+      $node = $this->routeMatch->getParameter('node_preview');
+    }
+
     if ($node instanceof NodeInterface && isset($node)) {
       $node = $this->entityTypeManager->getStorage('node')->load($node->id());
       $entity = $node;
@@ -406,6 +410,10 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
    */
   public function getCacheTags() {
     $node = $this->routeMatch->getParameter('node');
+    if (empty($node)) {
+      $node = $this->routeMatch->getParameter('node_preview');
+    }
+
     if ($node instanceof NodeInterface) {
       if (isset($node)) {
         return Cache::mergeTags(parent::getCacheTags(), ['node:' . $node->id()]);
