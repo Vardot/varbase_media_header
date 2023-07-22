@@ -143,8 +143,12 @@ function varbase_media_header_preprocess_block(&$variables) {
     $entity = FALSE;
     $entity_type = FALSE;
 
-    $node = \Drupal::routeMatch()->getParameter('node');
-    if (empty($node)) {
+    $node = new stdClass();
+    if (\Drupal::routeMatch()->getRouteName() == 'entity.node.canonical') {
+      $node = \Drupal::routeMatch()->getParameter('node');
+    }
+    elseif (\Drupal::routeMatch()->getRouteName() == 'entity.node.preview'
+      && \Drupal::routeMatch()->getParameter('view_mode_id') == 'full') {
       $node = \Drupal::routeMatch()->getParameter('node_preview');
     }
 
