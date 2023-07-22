@@ -201,15 +201,33 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
     $process = FALSE;
     $entity = FALSE;
 
-    $node = $this->routeMatch->getParameter('node');
-    if (empty($node)) {
+    $node = new \stdClass();
+    if ($this->routeMatch->getRouteName() == 'entity.node.canonical') {
+      $node = $this->routeMatch->getParameter('node');
+    }
+    elseif ($this->routeMatch->getRouteName() == 'entity.node.preview'
+      && $this->routeMatch->getParameter('view_mode_id') == 'full') {
       $node = $this->routeMatch->getParameter('node_preview');
     }
 
     if ($node instanceof NodeInterface && isset($node)) {
-      $node = $this->entityTypeManager->getStorage('node')->load($node->id());
+      $node_bundle = '';
+      if ($this->routeMatch->getRouteName() == 'entity.node.canonical') {
+        $node = $this->entityTypeManager->getStorage('node')->load($node->id());
+        $node_bundle = $node->bundle();
+      }
+      elseif ($this->routeMatch->getRouteName() == 'entity.node.preview'
+        && $this->routeMatch->getParameter('view_mode_id') == 'full') {
+        if ($node->isNew()) {
+          $node_bundle = $node->getType();
+        }
+        else {
+          $node_bundle = $node->bundle();
+        }
+      }
+
       $entity = $node;
-      $process = isset($config['vmh_node'][$node->bundle()]) && $config['vmh_node'][$node->bundle()] != '_none_';
+      $process = isset($config['vmh_node'][$node_bundle]) && $config['vmh_node'][$node_bundle] != '_none_';
     }
     else {
       $taxonomy = $this->routeMatch->getParameter('taxonomy_term');
@@ -409,8 +427,12 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
    * {@inheritdoc}
    */
   public function getCacheTags() {
-    $node = $this->routeMatch->getParameter('node');
-    if (empty($node)) {
+    $node = new \stdClass();
+    if ($this->routeMatch->getRouteName() == 'entity.node.canonical') {
+      $node = $this->routeMatch->getParameter('node');
+    }
+    elseif ($this->routeMatch->getRouteName() == 'entity.node.preview'
+      && $this->routeMatch->getParameter('view_mode_id') == 'full') {
       $node = $this->routeMatch->getParameter('node_preview');
     }
 
