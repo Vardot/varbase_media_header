@@ -33,7 +33,8 @@
     "drupal/core": "~10.1.0",
     "vardot/entity-definition-update-manager": "~1.0",
     "vardot/module-installer-factory": "~1.0",
-    "drupal/varbase_media": "~10.0"
+    "drupal/varbase_media": "~10.0",
+    "drupal/varbase_components": "~10.0"
   },
   "extra": {
     "enable-patching": true,

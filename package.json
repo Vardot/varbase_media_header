@@ -3,20 +3,17 @@
   "private": true,
   "description": "Varbase Media Header : Populates the universal media header style on top of web pages. Which lets site builders activate that for content types.",
   "license": "GPL-2.0",
-  "main": "gulpfile.js",
+  "author": "Vardot",
+  "homepage": "https://www.drupal.org/project/varbase_media_header",
   "engines": {
     "yarn": ">= 1.6",
     "node": ">= 18.0"
   },
   "scripts": {
-    "theme:init": "gulp",
-    "theme:build": "gulp compile",
-    "theme:watch": "gulp watch",
     "phpcs": "phpcs --standard=./.phpcs.xml .",
     "phpcbf": "phpcbf --standard=./.phpcs.xml .",
     "lint:yaml": "node ./node_modules/eslint/bin/eslint.js --config=.eslintrc.json --ext .yml .",
-    "lint:js": "node ./node_modules/eslint/bin/eslint.js --config=.eslintrc.json --ext .js .",
-    "lint:css": "npx stylelint --config=.stylelintrc.json ."
+    "lint:js": "node ./node_modules/eslint/bin/eslint.js --config=.eslintrc.json --ext .js ."
   },
   "keywords": [
     "SASS",
@@ -27,103 +24,38 @@
     "Media Header",
     "Header"
   ],
-  "author": "Vardot",
-  "dependencies": {
-    "rfs": "~9",
-    "@popperjs/core": "~2",
-    "bootstrap": "~5"
-  },
   "devDependencies": {
-    "autoprefixer": "~9",
-    "@babel/core": "~7",
-    "@babel/preset-env": "~7",
-    "@babel/register": "^7.7.7",
-    "browser-sync": "~2",
-    "chalk": "~2",
-    "chokidar": "~3",
-    "chromedriver": "~99",
-    "cross-env": "~5",
-    "del": "~3",
-    "dotenv-safe": "~5",
+    "dotenv-safe": "^8.2.0",
     "eslint": "^8.9.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.4.0",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-jquery": "^1.5.1",
     "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-yml": "^0.14.0",
-    "farbtastic": "https://github.com/mattfarina/farbtastic/archive/1.3u.tar.gz",
-    "glob": "~7",
-    "glob-watcher": "~5",
-    "joyride": "https://github.com/zurb/joyride/archive/refs/heads/v2.1.tar.gz",
-    "sass": "~1",
-    "gulp": "~4",
-    "gulp-autoprefixer": "~8",
-    "gulp-clean-css": "~4",
-    "gulp-concat": "~2",
-    "gulp-csscomb": "~3",
-    "gulp-filter": "~7",
-    "gulp-html-replace": "~1",
-    "gulp-postcss": "~8",
-    "gulp-rename": "~2",
-    "gulp-sass": "~5",
-    "gulp-scss-lint": "~1",
-    "gulp-sourcemaps": "~3",
-    "gulp-uglify": "~3",
-    "gulp-rtlcss": "~1",
-    "merge-stream": "~2",
-    "minimatch": "~5",
-    "minimist": "~1",
-    "mkdirp": "~1",
-    "postcss": "^7.0.18",
-    "postcss-calc": "^7.0.1",
-    "postcss-header": "^2.0.0",
-    "postcss-import": "^12.0.1",
-    "postcss-preset-env": "^6.7.0",
-    "postcss-pxtorem": "^5.1.1",
-    "postcss-url": "^8.0.0",
+    "eslint-plugin-yml": "^1.2.0",
+    "glob": "^8.0.3",
+    "js-cookie": "3.0.x",
+    "jsdom": "^20.0.0",
+    "loadjs": "4.2.x",
     "prettier": "^2.1.2",
-    "raw-loader": "^4.0.2",
-    "shepherd.js": "^9.0.0",
-    "sortablejs": "^1.13.0",
-    "stylelint": "^14.0.1",
+    "stylelint": "^15.5.0",
     "stylelint-checkstyle-formatter": "^0.1.2",
-    "stylelint-config-standard": "^23.0.0",
-    "stylelint-order": "^5.0.0",
-    "tabbable": "^5.2.0",
-    "terser": "^5.3.4",
-    "terser-webpack-plugin": "^5.2.0",
-    "underscore": "^1.13.1",
-    "webpack": "^5.51.1",
-    "webpack-cli": "^4.4.0"
-  },
-  "//": "'development is the default environment, and legacy is for transpiling the old jQuery codebase",
-  "babel": {
-    "env": {
-      "development": {
-        "presets": [
-          [
-            "@babel/preset-env",
-            {
-              "modules": "commonjs",
-              "targets": {
-                "node": "current"
-              }
-            }
-          ]
-        ]
-      },
-      "legacy": {
-        "presets": [
-          [
-            "@babel/preset-env",
-            {
-              "modules": false
-            }
-          ]
-        ]
-      }
-    }
+    "stylelint-config-standard": "^33.0.0",
+    "stylelint-order": "^6.0.3",
+    "tabbable": "~6.0.0",
+    "terser": "^5.14.2",
+    "terser-webpack-plugin": "^5.3.3",
+    "underscore": "~1.13.4",
+    "expose-loader": "^3.1.0",
+    "webpack": "^5.77.0",
+    "webpack-cli": "^5.0.0",
+    "webpack-dev-middleware": "^4.1.0",
+    "webpack-merge": "^5.7.3",
+    "webpack-notifier": "^1.13.0",
+    "webpack-remove-empty-scripts": "^0.7.1",
+    "copy-webpack-plugin": "~11.0.0",
+    "clean-webpack-plugin": "^4.0.0",
+    "core-js": "^3.9.1"
   },
   "browserslist": [
     "last 2 Chrome major versions",
@@ -132,9 +64,7 @@
     "last 2 Edge major versions",
     "last 2 Opera versions",
     "last 2 iOS major versions",
-    "last 1 Explorer major version",
     "last 1 ChromeAndroid version",
-    "last 1 UCAndroid version",
     "last 1 Samsung version",
     "Firefox ESR"
   ]

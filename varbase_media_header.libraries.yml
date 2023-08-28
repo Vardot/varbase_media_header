@@ -1,14 +1,3 @@
-media_header_styles:
-  css:
-    component:
-      css/components/media-header.component.css: {}
-
-media_header_scripts:
-  dependencies:
-    - core/drupal
-    - core/drupalSettings
-    - core/once
-
 # Behaviors of Varbase media header for local video scripts.
 local_video_header:
   js:

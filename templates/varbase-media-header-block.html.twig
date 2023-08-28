@@ -11,8 +11,6 @@
  *
  */
 #}
-{{ attach_library('varbase_media_header/media_header_styles') }}
-{{ attach_library('varbase_media_header/media_header_scripts') }}
 {# If the media type is local video #}
 {% if vmh_media_type == "video" %}
   {{ attach_library('varbase_media_header/local_video_header') }}
@@ -20,25 +18,12 @@
 {% elseif vmh_media_type == "remote_video" and provider %}
   {{ attach_library('varbase_media_header/' ~ provider ~ '_video_header') }}
 {% endif %}
-
-<header class="vmh-container bg-edge2edge">
-  <div class="vmh-content-wrapper">
-    <div class="container">
-      <div class="row">
-        <div class="vmh-content">
-          {# System Page breadcrumbs #}
-          {% if vmh_page_breadcrumbs %}
-            <div class="vmh-breadcrumb">{{ vmh_page_breadcrumbs }}</div>
-          {% endif %}
-
-          {# System page title #}
-          {% if vmh_page_title %}
-            <h1 class="vmh-page-title">{{ vmh_page_title }}</h1>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-  </div>
-  {# Background media #}
-  <div class="vmh-background">{% if vmh_background_media %}{{ vmh_background_media }}{% endif %}</div>
-</header>
+{%
+  include 'varbase_components:media-header' with {
+    media_type: vmh_media_type|default(''),
+    provider: provider|default(''),
+    background_media: vmh_background_media|default(''),
+    page_breadcrumbs: vmh_page_breadcrumbs|default(''),
+    page_title: vmh_page_title|default('')
+  }
+%}
