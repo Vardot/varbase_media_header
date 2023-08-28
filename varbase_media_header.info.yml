@@ -6,4 +6,4 @@ configure: varbase_media_header.settings
 core_version_requirement: ~10.1.0
 dependencies:
   - varbase_media:varbase_media
-  - varbase_media:varbase_components
+  - varbase_components:varbase_components
