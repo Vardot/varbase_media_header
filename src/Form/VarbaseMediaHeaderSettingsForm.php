@@ -189,7 +189,8 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
          && isset($vmh_settings[$entity_type_key][$bundle_key])
          && $vmh_settings[$entity_type_key][$bundle_key]) {
 
-          // Import managed Entity Type configs for supported entity types. Only when needed.
+          // Import managed Entity Type configs for supported entity types.
+          // Only when needed.
           $this->importManagedEntityConfigs($entity_type_key);
 
           $config_name = "field.field." . $entity_type_key . "." . $bundle_key . ".field_page_header_style";
@@ -277,14 +278,18 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
   }
 
   /**
-   * Import managed Entity Type configs for supported entity types. Only when needed.
+   * Import managed Entity Type configs for supported entity types.
+   *
+   * Only when needed.
    */
   public function importManagedEntityConfigs(string $entity_type_key) {
     if (!($this->configFactory->get('field.storage.' . $entity_type_key . '.field_media') == NULL)) {
       ModuleInstallerFactory::importConfigsFromList('varbase_media_header', ['field.storage.' . $entity_type_key . '.field_media'], 'config/managed/' . $entity_type_key);
 
-      // Entity updates to clear up any mismatched entity and/or field definitions
-      // And Fix changes were detected in the entity type and field definitions.
+      // Entity updates to clear up any mismatched entity
+      // and/or field definitions
+      // And Fix changes were detected in the entity type
+      // and field definitions.
       $this->classResolver->getInstanceFromDefinition(EntityDefinitionUpdateManager::class)
         ->applyUpdates();
     }
@@ -292,8 +297,10 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
     if (!($this->configFactory->get('field.storage.' . $entity_type_key . '.field_page_header_style') == NULL)) {
       ModuleInstallerFactory::importConfigsFromList('varbase_media_header', ['field.storage.' . $entity_type_key . '.field_page_header_style'], 'config/managed/' . $entity_type_key);
 
-      // Entity updates to clear up any mismatched entity and/or field definitions
-      // And Fix changes were detected in the entity type and field definitions.
+      // Entity updates to clear up any mismatched entity
+      // and/or field definitions
+      // And Fix changes were detected in the entity type
+      // and field definitions.
       $this->classResolver->getInstanceFromDefinition(EntityDefinitionUpdateManager::class)
         ->applyUpdates();
     }

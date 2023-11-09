@@ -371,7 +371,7 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
               '#title' => $bundle_label,
               '#description' => $this->t('Choose a media field.'),
               '#options' => $options,
-              '#default_value' => isset($config['vmh_' . $entity_type_key][$bundle_key]) ? $config['vmh_' . $entity_type_key][$bundle_key] : '_none_',
+              '#default_value' => $config['vmh_' . $entity_type_key][$bundle_key] ?? '_none_',
             ];
 
           }
@@ -385,7 +385,7 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
       '#title' => $this->t('Media view mode'),
       '#description' => $this->t('Choose the Media view mode to use.'),
       '#options' => $media_view_mode_options,
-      '#default_value' => isset($config['vmh_media_view_mode']) ? $config['vmh_media_view_mode'] : '',
+      '#default_value' => $config['vmh_media_view_mode'] ?? '',
     ];
 
     return $form;
