@@ -1,8 +1,8 @@
-name: "Varbase Media Header"
-description: "Populates the universal media header style on top of web pages. Which lets site builders activate that for content types."
+name: Varbase Media Header
+description: Populates the universal media header style on top of web pages. Which lets site builders activate that for content types.
 type: module
 package: Varbase
 configure: varbase_media_header.settings
-core_version_requirement: ~9.5.0 || ~10.1.0
+core_version_requirement: ~9
 dependencies:
   - varbase_media:varbase_media
