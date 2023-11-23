@@ -6,11 +6,21 @@
  * - $vmh_page_breadcrumbs: System Page breadcrumbs.
  * - $vmh_page_title: System page title.
  * - $vmh_background_media: Background media (Image, local or remote videos).
+ * - $vmh_media_type: Media entity type.
+ * - $provider: Video provider (for remote video).
  *
  */
 #}
 {{ attach_library('varbase_media_header/media_header_styles') }}
 {{ attach_library('varbase_media_header/media_header_scripts') }}
+{# If the media type is local video #}
+{% if vmh_media_type == "video" %}
+  {{ attach_library('varbase_media_header/local_video_header') }}
+{# If the media type is remote video with oembed #}
+{% elseif vmh_media_type == "remote_video" and provider %}
+  {{ attach_library('varbase_media_header/' ~ provider ~ '_video_header') }}
+{% endif %}
+
 <header class="vmh-container bg-edge2edge">
   <div class="vmh-content-wrapper">
     <div class="container">

@@ -1,0 +1,31 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_media
+    - media.type.image
+    - media.type.remote_video
+    - media.type.video
+    - taxonomy.vocabulary.TOKEN_TAXONOMY_TERM
+id: taxonomy_term.TOKEN_TAXONOMY_TERM.field_media
+field_name: field_media
+entity_type: taxonomy_term
+bundle: TOKEN_TAXONOMY_TERM
+label: "Main media"
+description: ""
+required: false
+translatable: true
+default_value: {}
+default_value_callback: ""
+settings:
+  handler: "default:media"
+  handler_settings:
+    target_bundles:
+      image: image
+      remote_video: remote_video
+      video: video
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: remote_video
+field_type: entity_reference

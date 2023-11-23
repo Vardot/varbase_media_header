@@ -8,6 +8,7 @@ dependencies:
     - field.field.media.video.field_media_video_file
     - media.type.video
   module:
+    - blazy
     - ds
     - file
 third_party_settings:
@@ -18,14 +19,15 @@ third_party_settings:
       disable_css: false
       entity_classes: all_classes
       settings:
+        classes:
+          layout_class: {  }
         wrappers:
           ds_content: div
         outer_wrapper: div
-        attributes: ""
-        link_attribute: ""
-        link_custom: ""
-        classes:
-          layout_class: {}
+        attributes: ''
+        link_attribute: ''
+        link_custom: ''
+        label: ''
     regions:
       ds_content:
         - field_media_video_file
@@ -36,51 +38,53 @@ mode: varbase_media_header
 content:
   field_media_video_file:
     type: file_video
-    weight: 0
     label: hidden
     settings:
-      controls: true
+      controls: flase
+      autoplay: true
+      loop: true
       multiple_file_display_type: tags
+      muted: true
       width: 1600
       height: 900
-      autoplay: false
-      loop: false
-      muted: false
     third_party_settings:
       ds:
         ft:
           id: expert
           settings:
-            lb: ""
-            prefix: ""
-            lbw-el: ""
-            lbw-cl: ""
-            lbw-at: ""
+            lb: ''
+            lbw: false
+            lbw-el: ''
+            lbw-cl: ''
+            lbw-at: ''
+            lb-col: false
             ow: true
-            ow-el: ""
-            ow-cl: "varbase-video-player embed-responsive embed-responsive-16by9"
-            ow-at: ""
+            ow-el: ''
+            ow-cl: 'varbase-video-player embed-responsive embed-responsive-16by9'
+            ow-at: ''
             ow-def-at: true
             ow-def-cl: true
-            fis-el: ""
-            fis-cl: ""
-            fis-at: ""
-            fi-el: ""
-            fi-cl: ""
-            fi-at: ""
-            suffix: ""
-            lbw: false
-            lb-col: false
             fis: false
+            fis-el: ''
+            fis-cl: ''
+            fis-at: ''
             fis-def-at: false
             fi: false
+            fi-el: ''
+            fi-cl: ''
+            fi-at: ''
             fi-def-at: false
+            prefix: ''
+            suffix: ''
+      blazy:
+        blazy: false
+    weight: 0
     region: ds_content
 hidden:
   created: true
   field_media_cover_image: true
   field_media_in_library: true
-  langcode: true
   name: true
+  search_api_excerpt: true
   thumbnail: true
   uid: true

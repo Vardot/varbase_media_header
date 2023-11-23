@@ -6,6 +6,7 @@
  */
 
 use Drupal\node\NodeInterface;
+use Drupal\taxonomy\TermInterface;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
@@ -22,7 +23,27 @@ function varbase_media_header_form_node_form_alter(&$form, FormStateInterface $f
 
       if ($form_id == 'node_' . $bundle_key . '_edit_form'
        || $form_id == 'node_' . $bundle_key . '_form') {
-        _varbase_media_header_group_form($form, $form_state, $form_id);
+        _varbase_media_header_node_group_form($form, $form_state, $form_id);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function varbase_media_header_form_taxonomy_term_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+
+  $vmh_settings = \Drupal::config('varbase_media_header.settings')->get('varbase_media_header_settings');
+
+  $bundles = \Drupal::service('entity_type.bundle.info')->getBundleInfo('taxonomy_term');
+
+  foreach ($bundles as $bundle_key => $bundle) {
+    if (!empty($vmh_settings['taxonomy_term']) && isset($vmh_settings['taxonomy_term'][$bundle_key]) && $vmh_settings['taxonomy_term'][$bundle_key]) {
+
+      if ($form_id == 'taxonomy_term_' . $bundle_key . '_edit_form'
+       || $form_id == 'taxonomy_term_' . $bundle_key . '_form') {
+        _varbase_media_header_taxonomy_term_group_form($form, $form_state, $form_id);
       }
     }
   }
@@ -40,11 +61,11 @@ function varbase_media_header_form_node_form_alter(&$form, FormStateInterface $f
  * @param string $form_id
  *   The form id.
  */
-function _varbase_media_header_group_form(&$form, FormStateInterface $form_state, $form_id) {
+function _varbase_media_header_node_group_form(&$form, FormStateInterface $form_state, $form_id) {
 
-  // Have landing page extra fiels in a group in the right-hand column.
+  // Have landing page extra fields in a group in the right-hand column.
   $form['vmh_group'] = [
-    '#type' => 'fieldset',
+    '#type' => 'details',
     '#title' => t('Media Header'),
     '#group' => 'advanced',
     '#attributes' => [
@@ -54,6 +75,46 @@ function _varbase_media_header_group_form(&$form, FormStateInterface $form_state
       'library' => ['node/drupal.node'],
     ],
     '#weight' => -10,
+    '#optional' => TRUE,
+    '#open' => TRUE,
+  ];
+
+  if (isset($form['field_page_header_style'])) {
+    $form['field_page_header_style']['#group'] = 'vmh_group';
+  }
+
+  if (isset($form['field_media'])) {
+    $form['field_media']['#group'] = 'vmh_group';
+  }
+
+}
+
+/**
+ * Varbase Media Header page form taxonomy term add/edit.
+ *
+ * To group fields in add or edit form.
+ *
+ * @param mixed $form
+ *   The form.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   The status of the form.
+ * @param string $form_id
+ *   The form id.
+ */
+function _varbase_media_header_taxonomy_term_group_form(&$form, FormStateInterface $form_state, $form_id) {
+
+  // Have landing page extra fields in a group in the right-hand column.
+  $form['vmh_group'] = [
+    '#type' => 'details',
+    '#title' => t('Media Header'),
+    '#group' => 'advanced',
+    '#attributes' => [
+      'class' => ['taxonomy_term-form-options'],
+    ],
+    '#attached' => [
+      'library' => ['taxonomy/drupal.taxonomy'],
+    ],
+    '#weight' => 1,
     '#optional' => TRUE,
     '#open' => TRUE,
   ];
@@ -79,32 +140,53 @@ function varbase_media_header_preprocess_block(&$variables) {
       || $variables['plugin_id'] == 'system_breadcrumb_block')
       && $active_theme == $current_theme) {
 
-    $node = \Drupal::routeMatch()->getParameter('node');
-    if ($node instanceof NodeInterface) {
-      if (isset($node)) {
+    $entity = FALSE;
+    $entity_type = FALSE;
 
-        $vmh_settings = \Drupal::config('varbase_media_header.settings')->get('varbase_media_header_settings');
-        if (!empty($vmh_settings['node'])
-          && isset($vmh_settings['node'][$node->getType()])
-          && $vmh_settings['node'][$node->getType()]
-          && $node->hasField('field_page_header_style')
-          && !$node->get('field_page_header_style')->isEmpty()
-          && $node->get('field_page_header_style')->value != 'standard') {
+    $node = new stdClass();
+    if (\Drupal::routeMatch()->getRouteName() == 'entity.node.canonical') {
+      $node = \Drupal::routeMatch()->getParameter('node');
+    }
+    elseif (\Drupal::routeMatch()->getRouteName() == 'entity.node.preview'
+      && \Drupal::routeMatch()->getParameter('view_mode_id') == 'full') {
+      $node = \Drupal::routeMatch()->getParameter('node_preview');
+    }
 
-          $vmh_hide_breadcrumbs = \Drupal::config('varbase_media_header.settings')->get('hide_breadcrumbs');
-
-          if ($variables['plugin_id'] == 'system_breadcrumb_block'
-            && isset($vmh_hide_breadcrumbs)
-            && $vmh_hide_breadcrumbs == FALSE) {
-            $variables['content'] = '';
-          }
-          elseif ($variables['plugin_id'] == 'page_title_block') {
-            $variables['content'] = '';
-          }
-        }
-        $variables['#cache']['contexts'][] = 'url';
+    if ($node instanceof NodeInterface && isset($node)) {
+      $entity = $node;
+      $entity_type = $entity->getEntityType()->id();
+    }
+    else {
+      $taxonomy = \Drupal::routeMatch()->getParameter('taxonomy_term');
+      if ($taxonomy instanceof TermInterface && isset($taxonomy)) {
+        $entity = $taxonomy;
+        $entity_type = $entity->getEntityType()->id();
       }
     }
+
+    if ($entity_type != FALSE) {
+      $vmh_settings = \Drupal::config('varbase_media_header.settings')->get('varbase_media_header_settings');
+      if (!empty($vmh_settings[$entity_type])
+        && isset($vmh_settings[$entity_type][$entity->bundle()])
+        && $vmh_settings[$entity_type][$entity->bundle()]
+        && $entity->hasField('field_page_header_style')
+        && !$entity->get('field_page_header_style')->isEmpty()
+        && $entity->get('field_page_header_style')->value != 'standard') {
+
+        $vmh_hide_breadcrumbs = \Drupal::config('varbase_media_header.settings')->get('hide_breadcrumbs');
+
+        if ($variables['plugin_id'] == 'system_breadcrumb_block'
+          && isset($vmh_hide_breadcrumbs)
+          && $vmh_hide_breadcrumbs == FALSE) {
+          $variables['content'] = '';
+        }
+        elseif ($variables['plugin_id'] == 'page_title_block') {
+          $variables['content'] = '';
+        }
+      }
+      $variables['#cache']['contexts'][] = 'url';
+    }
+
   }
 
 }
@@ -122,6 +204,8 @@ function varbase_media_header_theme($existing, $type, $theme, $path) {
         'vmh_page_title' => NULL,
         'vmh_page_breadcrumbs' => NULL,
         'vmh_background_media' => NULL,
+        'vmh_media_type' => NULL,
+        'provider' => NULL,
       ],
     ],
     'media_oembed_iframe__remote_video__varbase_media_header' => [

@@ -13,12 +13,12 @@ use Vardot\Installer\ModuleInstallerFactory;
  */
 function varbase_media_header_install() {
 
-  // Processer for install: in varbase_media_header.info.yml file.
+  // Processor for install: in varbase_media_header.info.yml file.
   // ---------------------------------------------------------------------------.
   ModuleInstallerFactory::installList('varbase_media_header');
 
   // Install optional configs.
-  ModuleInstallerFactory::importConfigsFromScanedDirectory('varbase_media_header', '/^field.storage.*\\.(yml)$/i');
+  ModuleInstallerFactory::importConfigsFromScanedDirectory('varbase_media_header', '/^core.entity_view_display.*\\.(yml)$/i');
   ModuleInstallerFactory::importConfigsFromScanedDirectory('varbase_media_header', '/^.*(settings.yml)$/i');
 
   // Entity updates to clear up any mismatched entity and/or field definitions
@@ -27,14 +27,10 @@ function varbase_media_header_install() {
     ->getInstanceFromDefinition(EntityDefinitionUpdateManager::class)
     ->applyUpdates();
 
+  // Add permissions.
+  ModuleInstallerFactory::addPermissions('varbase_media_header');
+
 }
 
-/**
- * Issue #3180926: Add the ability to hide the breadcrumbs from Media Header.
- */
-function varbase_media_header_update_87001() {
-  // Save the settings value for the hide breadcrumbs.
-  \Drupal::configFactory()->getEditable('varbase_media_header.settings')
-    ->set('hide_breadcrumbs', FALSE)
-    ->save();
-}
+// Load include all updates and apply them.
+\Drupal::moduleHandler()->loadInclude('varbase_media_header', 'inc', 'include/updates/all');

@@ -4,7 +4,6 @@ namespace Drupal\varbase_media_header\Plugin\Block;
 
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\node\NodeInterface;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Cache\Cache;
@@ -21,7 +20,9 @@ use Drupal\Core\Block\BlockManagerInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityDisplayRepositoryInterface;
+use Drupal\node\NodeInterface;
 use Drupal\media\MediaInterface;
+use Drupal\taxonomy\TermInterface;
 
 /**
  * Provides a Varbase Media Header block.
@@ -37,7 +38,12 @@ use Drupal\media\MediaInterface;
  *       "entity:node",
  *       label = @Translation("Current Node"),
  *       required = FALSE,
- *     )
+ *     ),
+ *     "taxonomy_term" = @ContextDefinition(
+ *       "entity:taxonomy_term",
+ *       label = @Translation("Current Term"),
+ *       required = FALSE,
+ *    ),
  *   }
  * )
  */
@@ -190,85 +196,120 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
    * {@inheritdoc}
    */
   public function build() {
+
     $config = $this->getConfiguration();
+    $process = FALSE;
+    $entity = FALSE;
 
-    $node = $this->routeMatch->getParameter('node');
-    if ($node instanceof NodeInterface) {
-      if (isset($node)) {
+    $node = new \stdClass();
+    if ($this->routeMatch->getRouteName() == 'entity.node.canonical') {
+      $node = $this->routeMatch->getParameter('node');
+    }
+    elseif ($this->routeMatch->getRouteName() == 'entity.node.preview'
+      && $this->routeMatch->getParameter('view_mode_id') == 'full') {
+      $node = $this->routeMatch->getParameter('node_preview');
+    }
 
+    if ($node instanceof NodeInterface && isset($node)) {
+      $node_bundle = '';
+      if ($this->routeMatch->getRouteName() == 'entity.node.canonical') {
         $node = $this->entityTypeManager->getStorage('node')->load($node->id());
+        $node_bundle = $node->bundle();
+      }
+      elseif ($this->routeMatch->getRouteName() == 'entity.node.preview'
+        && $this->routeMatch->getParameter('view_mode_id') == 'full') {
+        if ($node->isNew()) {
+          $node_bundle = $node->getType();
+        }
+        else {
+          $node_bundle = $node->bundle();
+        }
+      }
 
-        if (isset($config['vmh_node'][$node->bundle()])
-          && $config['vmh_node'][$node->bundle()] != '_none_') {
+      $entity = $node;
+      $process = isset($config['vmh_node'][$node_bundle]) && $config['vmh_node'][$node_bundle] != '_none_';
+    }
+    else {
+      $taxonomy = $this->routeMatch->getParameter('taxonomy_term');
+      if ($taxonomy instanceof TermInterface && isset($taxonomy)) {
+        $taxonomy = $this->entityTypeManager->getStorage('taxonomy_term')->load($taxonomy->tid->value);
+        $entity = $taxonomy;
+        $process = isset($config['vmh_taxonomy_term'][$taxonomy->bundle()]) && $config['vmh_taxonomy_term'][$taxonomy->bundle()] != '_none_';
+      }
+    }
 
-          if ($node->hasField('field_page_header_style')
-            && !$node->get('field_page_header_style')->isEmpty()
-            && $node->get('field_page_header_style')->value != 'standard') {
+    if ($process != FALSE
+      && $entity->hasField('field_page_header_style')
+      && !$entity->get('field_page_header_style')->isEmpty()
+      && $entity->get('field_page_header_style')->value != 'standard') {
 
-            // Page title.
-            $vmh_page_title = $this->titleResolver->getTitle($this->requestStack->getCurrentRequest(), $this->routeMatch->getRouteObject());
-            $vmh_page_title = is_array($vmh_page_title) ? $vmh_page_title['#markup'] : $vmh_page_title;
+      // Page title.
+      $vmh_page_title = $this->titleResolver->getTitle($this->requestStack->getCurrentRequest(), $this->routeMatch->getRouteObject());
+      $vmh_page_title = is_array($vmh_page_title) ? $vmh_page_title['#markup'] : $vmh_page_title;
 
-            // Page Breadcrumb block.
-            $block_config = [];
-            $plugin_block = $this->blockManager->createInstance('system_breadcrumb_block', $block_config);
-            $access_result = $plugin_block->access($this->currentUser);
-            if (!(is_object($access_result)
-               && $access_result->isForbidden()
-               || is_bool($access_result)
-               && !$access_result)) {
+      // Page Breadcrumb block.
+      $block_config = [];
+      $plugin_block = $this->blockManager->createInstance('system_breadcrumb_block', $block_config);
+      $access_result = $plugin_block->access($this->currentUser);
+      if (!(is_object($access_result)
+          && $access_result->isForbidden()
+          || is_bool($access_result)
+          && !$access_result)) {
 
-              $vmh_hide_breadcrumbs = $this->configFactory->get('varbase_media_header.settings')->get('hide_breadcrumbs');
+        $vmh_hide_breadcrumbs = $this->configFactory->get('varbase_media_header.settings')->get('hide_breadcrumbs');
 
-              if (isset($vmh_hide_breadcrumbs)
-                  && $vmh_hide_breadcrumbs == FALSE) {
-                $vmh_page_breadcrumbs = $plugin_block->build();
-              }
+        if (isset($vmh_hide_breadcrumbs)
+            && $vmh_hide_breadcrumbs == FALSE) {
+          $vmh_page_breadcrumbs = $plugin_block->build();
+        }
+      }
+
+      $media_field_name = $config['vmh_' . $entity->getEntityType()->id()][$entity->bundle()];
+
+      $langcode = $this->languageManager->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+
+      // Background media.
+      $vmh_background_media = NULL;
+      if ($entity->hasField($media_field_name)) {
+        if ($entity->hasTranslation($langcode)) {
+          if (!$entity->getTranslation($langcode)->get($media_field_name)->isEmpty()) {
+            $entity_field_media = $entity->getTranslation($langcode)->get($media_field_name)->getValue();
+          }
+        }
+        else {
+          $entity_field_media = $entity->get($media_field_name)->getValue();
+        }
+
+        if (!empty($entity_field_media)) {
+          $entity_field_media_entity = $this->entityTypeManager->getStorage('media')->load($entity_field_media[0]['target_id']);
+
+          if ($entity_field_media_entity instanceof MediaInterface) {
+            $entity_field_media_build = $this->entityTypeManager->getViewBuilder('media')->view($entity_field_media_entity, $config['vmh_media_view_mode']);
+            $vmh_background_media = $this->renderer->render($entity_field_media_build);
+            $vmh_media_type = $entity_field_media_entity->bundle();
+            if (isset($entity_field_media_entity->field_provider) && !empty($entity_field_media_entity->field_provider)) {
+              $provider = $entity_field_media_entity->field_provider->value;
             }
-
-            $media_field_name = $config['vmh_node'][$node->bundle()];
-
-            $langcode = $this->languageManager->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
-
-            // Background media.
-            $vmh_background_media = NULL;
-            if ($node->hasField($media_field_name)) {
-              if ($node->hasTranslation($langcode)) {
-                if (!$node->getTranslation($langcode)->get($media_field_name)->isEmpty()) {
-                  $node_field_media = $node->getTranslation($langcode)->get($media_field_name)->getValue();
-                }
-              }
-              else {
-                $node_field_media = $node->get($media_field_name)->getValue();
-              }
-
-              if (!empty($node_field_media)) {
-                $node_field_media_entity = $this->entityTypeManager->getStorage('media')->load($node_field_media[0]['target_id']);
-
-                if ($node_field_media_entity instanceof MediaInterface) {
-                  $node_field_media_build = $this->entityTypeManager->getViewBuilder('media')->view($node_field_media_entity, $config['vmh_media_view_mode']);
-                  $vmh_background_media = $this->renderer->render($node_field_media_build);
-                }
-              }
-            }
-
-            return [
-              'varbase_media_header_content' => [
-                '#title' => $this->t('Varbase Media Header'),
-                '#theme' => 'varbase_media_header_block',
-                '#cache' => [
-                  'tags' => $this->getCacheTags(),
-                  'contexts' => $this->getCacheContexts(),
-                  'max-age' => $this->getCacheMaxAge(),
-                ],
-                '#vmh_page_title' => (!empty($vmh_page_title) ? $vmh_page_title : NULL),
-                '#vmh_page_breadcrumbs' => (!empty($vmh_page_breadcrumbs) ? $vmh_page_breadcrumbs : NULL),
-                '#vmh_background_media' => (!empty($vmh_background_media) ? $vmh_background_media : NULL),
-              ],
-            ];
           }
         }
       }
+
+      return [
+        'varbase_media_header_content' => [
+          '#title' => $this->t('Varbase Media Header'),
+          '#theme' => 'varbase_media_header_block',
+          '#cache' => [
+            'tags' => $this->getCacheTags(),
+            'contexts' => $this->getCacheContexts(),
+            'max-age' => $this->getCacheMaxAge(),
+          ],
+          '#vmh_page_title' => (!empty($vmh_page_title) ? $vmh_page_title : NULL),
+          '#vmh_page_breadcrumbs' => (!empty($vmh_page_breadcrumbs) ? $vmh_page_breadcrumbs : NULL),
+          '#vmh_background_media' => (!empty($vmh_background_media) ? $vmh_background_media : NULL),
+          '#vmh_media_type' => (!empty($vmh_media_type) ? $vmh_media_type : NULL),
+          '#provider' => (!empty($provider) ? $provider : NULL),
+        ],
+      ];
     }
 
     return [];
@@ -314,15 +355,23 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
                 }
               }
             }
-
-            $bundle_label = $this->entityTypeManager->getStorage('node_type')->load($bundle_key)->label();
+            if ($entity_type_key == 'node') {
+              $bundle_label = $this->entityTypeManager->getStorage('node_type')
+                ->load($bundle_key)
+                ->label();
+            }
+            elseif ($entity_type_key == 'taxonomy_term') {
+              $bundle_label = $this->entityTypeManager->getStorage('taxonomy_vocabulary')
+                ->load($bundle_key)
+                ->label();
+            }
 
             $form['vmh_' . $entity_type_key][$bundle_key] = [
               '#type' => 'select',
               '#title' => $bundle_label,
               '#description' => $this->t('Choose a media field.'),
               '#options' => $options,
-              '#default_value' => isset($config['vmh_' . $entity_type_key][$bundle_key]) ? $config['vmh_' . $entity_type_key][$bundle_key] : '_none_',
+              '#default_value' => $config['vmh_' . $entity_type_key][$bundle_key] ?? '_none_',
             ];
 
           }
@@ -336,7 +385,7 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
       '#title' => $this->t('Media view mode'),
       '#description' => $this->t('Choose the Media view mode to use.'),
       '#options' => $media_view_mode_options,
-      '#default_value' => isset($config['vmh_media_view_mode']) ? $config['vmh_media_view_mode'] : '',
+      '#default_value' => $config['vmh_media_view_mode'] ?? '',
     ];
 
     return $form;
@@ -378,7 +427,15 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
    * {@inheritdoc}
    */
   public function getCacheTags() {
-    $node = $this->routeMatch->getParameter('node');
+    $node = new \stdClass();
+    if ($this->routeMatch->getRouteName() == 'entity.node.canonical') {
+      $node = $this->routeMatch->getParameter('node');
+    }
+    elseif ($this->routeMatch->getRouteName() == 'entity.node.preview'
+      && $this->routeMatch->getParameter('view_mode_id') == 'full') {
+      $node = $this->routeMatch->getParameter('node_preview');
+    }
+
     if ($node instanceof NodeInterface) {
       if (isset($node)) {
         return Cache::mergeTags(parent::getCacheTags(), ['node:' . $node->id()]);
@@ -386,6 +443,17 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
     }
     elseif (is_numeric($node)) {
       return Cache::mergeTags(parent::getCacheTags(), ['node:' . (int) $node]);
+    }
+    else {
+      $taxonomy = $this->routeMatch->getParameter('taxonomy_term');
+      if ($taxonomy instanceof TermInterface) {
+        if (isset($taxonomy)) {
+          return Cache::mergeTags(parent::getCacheTags(), ['taxonomy_term:' . $taxonomy->tid->value]);
+        }
+      }
+      elseif (is_numeric($taxonomy)) {
+        return Cache::mergeTags(parent::getCacheTags(), ['taxonomy_term:' . (int) $taxonomy]);
+      }
     }
 
     return parent::getCacheTags();

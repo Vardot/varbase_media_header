@@ -12,6 +12,7 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Url;
 use Vardot\Entity\EntityDefinitionUpdateManager;
+use Vardot\Installer\ModuleInstallerFactory;
 use Drupal\Core\DependencyInjection\ClassResolverInterface;
 
 /**
@@ -100,7 +101,7 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
 
     // Planed for allowed entity types to have node, taxonomy.
     // more other entity types if needed.
-    $allowed_entity_types = ['node'];
+    $allowed_entity_types = ['node', 'taxonomy_term'];
 
     $form['varbase_media_header_settings'] = [
       '#type' => 'fieldset',
@@ -108,7 +109,7 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
       '#collapsible' => TRUE,
       '#collapsed' => FALSE,
       '#tree' => TRUE,
-      '#description' => $this->t('Enable varbase media header for these entity types and bundles.'),
+      '#description' => $this->t('Enable Varbase Media Header for these entity types and bundles.'),
     ];
 
     foreach ($entity_info as $entity_type_key => $entity_type) {
@@ -123,7 +124,7 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
 
         $form['varbase_media_header_settings'][$entity_type_key] = [
           '#type' => 'checkboxes',
-          '#title' => $entity_type->get("name"),
+          '#title' => $entity_type->get("name") . " " . $entity_type->getLabel(),
           '#options' => $bundle_options,
           '#default_value' => !empty($vmh_settings[$entity_type_key]) ?
           array_keys(array_filter($vmh_settings[$entity_type_key])) : [],
@@ -187,6 +188,10 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
         if (!empty($vmh_settings[$entity_type_key])
          && isset($vmh_settings[$entity_type_key][$bundle_key])
          && $vmh_settings[$entity_type_key][$bundle_key]) {
+
+          // Import managed Entity Type configs for supported entity types.
+          // Only when needed.
+          $this->importManagedEntityConfigs($entity_type_key);
 
           $config_name = "field.field." . $entity_type_key . "." . $bundle_key . ".field_page_header_style";
           if (!($this->configFactory->get($config_name) == NULL)) {
@@ -270,6 +275,36 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
 
     // Flush all caches.
     drupal_flush_all_caches();
+  }
+
+  /**
+   * Import managed Entity Type configs for supported entity types.
+   *
+   * Only when needed.
+   */
+  public function importManagedEntityConfigs(string $entity_type_key) {
+    if (!($this->configFactory->get('field.storage.' . $entity_type_key . '.field_media') == NULL)) {
+      ModuleInstallerFactory::importConfigsFromList('varbase_media_header', ['field.storage.' . $entity_type_key . '.field_media'], 'config/managed/' . $entity_type_key);
+
+      // Entity updates to clear up any mismatched entity
+      // and/or field definitions
+      // And Fix changes were detected in the entity type
+      // and field definitions.
+      $this->classResolver->getInstanceFromDefinition(EntityDefinitionUpdateManager::class)
+        ->applyUpdates();
+    }
+
+    if (!($this->configFactory->get('field.storage.' . $entity_type_key . '.field_page_header_style') == NULL)) {
+      ModuleInstallerFactory::importConfigsFromList('varbase_media_header', ['field.storage.' . $entity_type_key . '.field_page_header_style'], 'config/managed/' . $entity_type_key);
+
+      // Entity updates to clear up any mismatched entity
+      // and/or field definitions
+      // And Fix changes were detected in the entity type
+      // and field definitions.
+      $this->classResolver->getInstanceFromDefinition(EntityDefinitionUpdateManager::class)
+        ->applyUpdates();
+    }
+
   }
 
 }
