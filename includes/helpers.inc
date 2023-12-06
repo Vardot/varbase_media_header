@@ -7,6 +7,8 @@
  * Add custom needed helper functions.
  */
 
+use Drupal\Core\Form\FormStateInterface;
+
 /**
  * Varbase Media Header page form node add/edit.
  *
