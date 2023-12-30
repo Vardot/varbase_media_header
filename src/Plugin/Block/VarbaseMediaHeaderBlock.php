@@ -106,6 +106,34 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
   protected $entityDisplayRepository;
 
   /**
+   * The request stack.
+   *
+   * @var \Symfony\Component\HttpFoundation\RequestStack
+   */
+  protected $requestStack;
+
+  /**
+   * The block manager.
+   *
+   * @var \Drupal\Core\Block\BlockManagerInterface
+   */
+  protected $blockManager;
+
+  /**
+   * The renderer.
+   *
+   * @var \Drupal\Core\Render\RendererInterface
+   */
+  protected $renderer;
+
+  /**
+   * The entity field manager.
+   *
+   * @var \Drupal\Core\Entity\EntityFieldManagerInterface
+   */
+  protected $entityFieldManager;
+
+  /**
    * Constructs a new Varbase Media Header Block.
    *
    * @param array $configuration
