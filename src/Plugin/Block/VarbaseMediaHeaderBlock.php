@@ -231,9 +231,14 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
 
     $node = new \stdClass();
     $routeName = $this->routeMatch->getRouteName();
-    if ($routeName == 'entity.node.canonical'
-      || $routeName == 'entity.node.latest_version') {
+    if ($routeName == 'entity.node.canonical') {
       $node = $this->routeMatch->getParameter('node');
+    }
+    elseif ($routeName == 'entity.node.latest_version') {
+      $latest_version_node = \Drupal::routeMatch()->getParameter('node');
+      $storage = $this->entityTypeManager->getStorage('node');
+      $last_revision_id = $storage->getLatestRevisionId($latest_version_node->id());
+      $node = $storage->loadRevision($last_revision_id);
     }
     elseif ($routeName == 'entity.node.preview'
       && $this->routeMatch->getParameter('view_mode_id') == 'full') {
@@ -242,9 +247,15 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
 
     if ($node instanceof NodeInterface && isset($node)) {
       $node_bundle = '';
-      if ($routeName == 'entity.node.canonical'
-        || $routeName == 'entity.node.latest_version') {
+      if ($routeName == 'entity.node.canonical') {
         $node = $this->entityTypeManager->getStorage('node')->load($node->id());
+        $node_bundle = $node->bundle();
+      }
+      elseif ($routeName == 'entity.node.latest_version') {
+        $latest_version_node = \Drupal::routeMatch()->getParameter('node');
+        $storage = $this->entityTypeManager->getStorage('node');
+        $last_revision_id = $storage->getLatestRevisionId($latest_version_node->id());
+        $node = $storage->loadRevision($last_revision_id);
         $node_bundle = $node->bundle();
       }
       elseif ($routeName == 'entity.node.preview'
@@ -460,9 +471,14 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
   public function getCacheTags() {
     $node = new \stdClass();
     $routeName = $this->routeMatch->getRouteName();
-    if ($routeName == 'entity.node.canonical'
-      || $routeName == 'entity.node.latest_version') {
+    if ($routeName == 'entity.node.canonical') {
       $node = $this->routeMatch->getParameter('node');
+    }
+    elseif ($routeName == 'entity.node.latest_version') {
+      $latest_version_node = \Drupal::routeMatch()->getParameter('node');
+      $storage = $this->entityTypeManager->getStorage('node');
+      $last_revision_id = $storage->getLatestRevisionId($latest_version_node->id());
+      $node = $storage->loadRevision($last_revision_id);
     }
     elseif ($routeName == 'entity.node.preview'
       && $this->routeMatch->getParameter('view_mode_id') == 'full') {

@@ -68,9 +68,15 @@ function varbase_media_header_preprocess_block(&$variables) {
 
     $node = new stdClass();
     $route_name = \Drupal::routeMatch()->getRouteName();
-    if ($route_name == 'entity.node.canonical'
-      || $route_name == 'entity.node.latest_version') {
+    if ($route_name == 'entity.node.canonical') {
       $node = \Drupal::routeMatch()->getParameter('node');
+    }
+    elseif ($route_name == 'entity.node.latest_version') {
+      $latest_version_node = \Drupal::routeMatch()->getParameter('node');
+      /** @var \Drupal\Core\Entity\ContentEntityStorageInterface $storage */
+      $storage = \Drupal::entityTypeManager()->getStorage('node');
+      $last_revision_id = $storage->getLatestRevisionId($latest_version_node->id());
+      $node = $storage->loadRevision($last_revision_id);
     }
     elseif ($route_name == 'entity.node.preview'
       && \Drupal::routeMatch()->getParameter('view_mode_id') == 'full') {
