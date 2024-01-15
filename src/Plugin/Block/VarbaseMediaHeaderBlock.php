@@ -230,21 +230,24 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
     $entity = FALSE;
 
     $node = new \stdClass();
-    if ($this->routeMatch->getRouteName() == 'entity.node.canonical') {
+    $routeName = $this->routeMatch->getRouteName();
+    if ($routeName == 'entity.node.canonical'
+      || $routeName == 'entity.node.latest_version') {
       $node = $this->routeMatch->getParameter('node');
     }
-    elseif ($this->routeMatch->getRouteName() == 'entity.node.preview'
+    elseif ($routeName == 'entity.node.preview'
       && $this->routeMatch->getParameter('view_mode_id') == 'full') {
       $node = $this->routeMatch->getParameter('node_preview');
     }
 
     if ($node instanceof NodeInterface && isset($node)) {
       $node_bundle = '';
-      if ($this->routeMatch->getRouteName() == 'entity.node.canonical') {
+      if ($routeName == 'entity.node.canonical'
+        || $routeName == 'entity.node.latest_version') {
         $node = $this->entityTypeManager->getStorage('node')->load($node->id());
         $node_bundle = $node->bundle();
       }
-      elseif ($this->routeMatch->getRouteName() == 'entity.node.preview'
+      elseif ($routeName == 'entity.node.preview'
         && $this->routeMatch->getParameter('view_mode_id') == 'full') {
         if ($node->isNew()) {
           $node_bundle = $node->getType();
@@ -456,10 +459,12 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
    */
   public function getCacheTags() {
     $node = new \stdClass();
-    if ($this->routeMatch->getRouteName() == 'entity.node.canonical') {
+    $routeName = $this->routeMatch->getRouteName();
+    if ($routeName == 'entity.node.canonical'
+      || $routeName == 'entity.node.latest_version') {
       $node = $this->routeMatch->getParameter('node');
     }
-    elseif ($this->routeMatch->getRouteName() == 'entity.node.preview'
+    elseif ($routeName == 'entity.node.preview'
       && $this->routeMatch->getParameter('view_mode_id') == 'full') {
       $node = $this->routeMatch->getParameter('node_preview');
     }

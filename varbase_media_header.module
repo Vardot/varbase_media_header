@@ -67,10 +67,12 @@ function varbase_media_header_preprocess_block(&$variables) {
     $entity_type = FALSE;
 
     $node = new stdClass();
-    if (\Drupal::routeMatch()->getRouteName() == 'entity.node.canonical') {
+    $route_name = \Drupal::routeMatch()->getRouteName();
+    if ($route_name == 'entity.node.canonical'
+      || $route_name == 'entity.node.latest_version') {
       $node = \Drupal::routeMatch()->getParameter('node');
     }
-    elseif (\Drupal::routeMatch()->getRouteName() == 'entity.node.preview'
+    elseif ($route_name == 'entity.node.preview'
       && \Drupal::routeMatch()->getParameter('view_mode_id') == 'full') {
       $node = \Drupal::routeMatch()->getParameter('node_preview');
     }
