@@ -230,7 +230,7 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
     $entity = FALSE;
 
     $node = new \stdClass();
-    if ($this->routeMatch->getRouteName() == 'entity.node.canonical') {
+    if ($this->routeMatch->getRouteName() == 'entity.node.canonical' || $this->routeMatch->getRouteName() == 'entity.node.latest_version') {
       $node = $this->routeMatch->getParameter('node');
     }
     elseif ($this->routeMatch->getRouteName() == 'entity.node.preview'
@@ -240,7 +240,7 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
 
     if ($node instanceof NodeInterface && isset($node)) {
       $node_bundle = '';
-      if ($this->routeMatch->getRouteName() == 'entity.node.canonical') {
+      if ($this->routeMatch->getRouteName() == 'entity.node.canonical' || $this->routeMatch->getRouteName() == 'entity.node.latest_version') {
         $node = $this->entityTypeManager->getStorage('node')->load($node->id());
         $node_bundle = $node->bundle();
       }
