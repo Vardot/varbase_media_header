@@ -7,7 +7,7 @@ dependencies:
     - field.field.media.image.field_media_in_library
     - media.type.image
   module:
-    - drimage
+    - drimage_improved
     - ds
 id: media.image.varbase_media_header
 targetEntityType: media
@@ -15,7 +15,7 @@ bundle: image
 mode: varbase_media_header
 content:
   field_media_image:
-    type: drimage
+    type: drimage_improved
     label: hidden
     settings:
       image_link: ''
