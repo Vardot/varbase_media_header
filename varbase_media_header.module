@@ -74,7 +74,7 @@ function varbase_media_header_preprocess_block(&$variables) {
     }
     elseif ($route_name == 'entity.node.latest_version') {
       $latest_version_node = \Drupal::routeMatch()->getParameter('node');
-      /** @var \Drupal\Core\Entity\ContentEntityStorageInterface $storage */
+      /** @var \Drupal\Core\Entity\RevisionableStorageInterface $storage */
       $storage = \Drupal::entityTypeManager()->getStorage('node');
       $last_revision_id = $storage->getLatestRevisionId($latest_version_node->id());
       $node = $storage->loadRevision($last_revision_id);

@@ -1,0 +1,8 @@
+name: Varbase Media Header - Default
+description: A recipe to manage default installed modules, configs and permissions.
+type: install
+config:
+  actions:
+    user.role.site_admin:
+      grantPermissions:
+        - 'administer varbase media header'

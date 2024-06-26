@@ -33,7 +33,7 @@ use Drupal\taxonomy\TermInterface;
  *   id = "varbase_media_header_block",
  *   admin_label = @Translation("Varbase Media Header"),
  *   category = @Translation("Varbase Media Header"),
- *   context = {
+ *   context_definitions = {
  *     "node" = @ContextDefinition(
  *       "entity:node",
  *       label = @Translation("Current Node"),
@@ -236,6 +236,7 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
     }
     elseif ($routeName == 'entity.node.latest_version') {
       $latest_version_node = \Drupal::routeMatch()->getParameter('node');
+      /** @var \Drupal\Core\Entity\RevisionableStorageInterface $storage */
       $storage = $this->entityTypeManager->getStorage('node');
       $last_revision_id = $storage->getLatestRevisionId($latest_version_node->id());
       $node = $storage->loadRevision($last_revision_id);
@@ -253,6 +254,7 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
       }
       elseif ($routeName == 'entity.node.latest_version') {
         $latest_version_node = \Drupal::routeMatch()->getParameter('node');
+        /** @var \Drupal\Core\Entity\RevisionableStorageInterface $storage */
         $storage = $this->entityTypeManager->getStorage('node');
         $last_revision_id = $storage->getLatestRevisionId($latest_version_node->id());
         $node = $storage->loadRevision($last_revision_id);
@@ -476,6 +478,7 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
     }
     elseif ($routeName == 'entity.node.latest_version') {
       $latest_version_node = \Drupal::routeMatch()->getParameter('node');
+      /** @var \Drupal\Core\Entity\RevisionableStorageInterface $storage */
       $storage = $this->entityTypeManager->getStorage('node');
       $last_revision_id = $storage->getLatestRevisionId($latest_version_node->id());
       $node = $storage->loadRevision($last_revision_id);
