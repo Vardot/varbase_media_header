@@ -5,8 +5,8 @@
  * Install, update and uninstall functions for the Varbase Media Header module.
  */
 
-use Vardot\Entity\EntityDefinitionUpdateManager;
-use Vardot\Installer\ModuleInstallerFactory;
+use Drupal\Core\Recipe\Recipe;
+use Drupal\Core\Recipe\RecipeRunner;
 
 // Include all helpers and updates.
 include_once __DIR__ . '/includes/helpers.inc';
@@ -17,21 +17,7 @@ include_once __DIR__ . '/includes/updates.inc';
  */
 function varbase_media_header_install() {
 
-  // Processor for install: in varbase_media_header.info.yml file.
-  // ---------------------------------------------------------------------------.
-  ModuleInstallerFactory::installList('varbase_media_header');
-
-  // Install optional configs.
-  ModuleInstallerFactory::importConfigsFromScanedDirectory('varbase_media_header', '/^core.entity_view_display.*\\.(yml)$/i');
-  ModuleInstallerFactory::importConfigsFromScanedDirectory('varbase_media_header', '/^.*(settings.yml)$/i');
-
-  // Entity updates to clear up any mismatched entity and/or field definitions
-  // And Fix changes were detected in the entity type and field definitions.
-  \Drupal::classResolver()
-    ->getInstanceFromDefinition(EntityDefinitionUpdateManager::class)
-    ->applyUpdates();
-
-  // Add permissions.
-  ModuleInstallerFactory::addPermissions('varbase_media_header');
+  $default_recipe = Recipe::createFromDirectory(__DIR__ . '/recipes/default');
+  RecipeRunner::processRecipe($default_recipe);
 
 }
