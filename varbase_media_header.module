@@ -115,7 +115,18 @@ function varbase_media_header_preprocess_block(&$variables) {
           $variables['content'] = '';
         }
       }
-      $variables['#cache']['contexts'][] = 'url';
+      $variables['#cache']['contexts'] = array_merge(
+        $variables['#cache']['contexts'] ?? [],
+        [
+          'route',
+          'url',
+          'url.path',
+          'url.path.parent',
+          'url.path.is_front',
+          'languages:language_interface',
+          'theme',
+        ]
+      );
     }
 
   }
