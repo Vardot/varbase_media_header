@@ -14,6 +14,7 @@ use Drupal\Core\Url;
 use Vardot\Entity\EntityDefinitionUpdateManager;
 use Vardot\Installer\ModuleInstallerFactory;
 use Drupal\Core\DependencyInjection\ClassResolverInterface;
+use Drupal\Core\Config\TypedConfigManagerInterface;
 
 /**
  * Varbase Media Header Settings Form Class.
@@ -49,6 +50,13 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
   protected $classResolver;
 
   /**
+   * The typed config manager.
+   *
+   * @var \Drupal\Core\Config\TypedConfigManagerInterface
+   */
+  protected $typedConfigManager;
+
+  /**
    * Constructs a new Varbase Media Header Block.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
@@ -61,9 +69,11 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
    *   The entity type bundle service.
    * @param \Drupal\Core\DependencyInjection\ClassResolverInterface $class_resolver
    *   (optional) The class resolver.
+   * @param \Drupal\Core\Config\TypedConfigManagerInterface $typedConfigManager
+   *   The typed config manager.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, ModuleHandlerInterface $module_handler, EntityTypeManagerInterface $entity_type_manager, EntityTypeBundleInfoInterface $bundle_info, ClassResolverInterface $class_resolver) {
-    parent::__construct($config_factory);
+  public function __construct(ConfigFactoryInterface $config_factory, ModuleHandlerInterface $module_handler, EntityTypeManagerInterface $entity_type_manager, EntityTypeBundleInfoInterface $bundle_info, ClassResolverInterface $class_resolver, TypedConfigManagerInterface $typedConfigManager) {
+    parent::__construct($config_factory, $typedConfigManager);
     $this->moduleHandler = $module_handler;
     $this->entityTypeManager = $entity_type_manager;
     $this->bundleInfo = $bundle_info;
@@ -79,7 +89,8 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
       $container->get('module_handler'),
       $container->get('entity_type.manager'),
       $container->get('entity_type.bundle.info'),
-      $container->get('class_resolver')
+      $container->get('class_resolver'),
+      $container->get('config.typed')
     );
   }
 
