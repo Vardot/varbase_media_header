@@ -54,15 +54,13 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
    *
    * @var \Drupal\Core\Config\TypedConfigManagerInterface
    */
-  protected TypedConfigManagerInterface $typedConfigManager;
+  protected $typedConfigManager;
 
   /**
    * Constructs a new Varbase Media Header Block.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The factory for configuration objects.
-   * @param \Drupal\Core\Config\TypedConfigManagerInterface $typedConfigManager
-   *   The typed config manager.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The module handler service.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
@@ -71,8 +69,10 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
    *   The entity type bundle service.
    * @param \Drupal\Core\DependencyInjection\ClassResolverInterface $class_resolver
    *   (optional) The class resolver.
+   * @param \Drupal\Core\Config\TypedConfigManagerInterface $typedConfigManager
+   *   The typed config manager.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, TypedConfigManagerInterface $typedConfigManager, ModuleHandlerInterface $module_handler, EntityTypeManagerInterface $entity_type_manager, EntityTypeBundleInfoInterface $bundle_info, ClassResolverInterface $class_resolver) {
+  public function __construct(ConfigFactoryInterface $config_factory, ModuleHandlerInterface $module_handler, EntityTypeManagerInterface $entity_type_manager, EntityTypeBundleInfoInterface $bundle_info, ClassResolverInterface $class_resolver, TypedConfigManagerInterface $typedConfigManager) {
     parent::__construct($config_factory, $typedConfigManager);
     $this->moduleHandler = $module_handler;
     $this->entityTypeManager = $entity_type_manager;
@@ -86,11 +86,11 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('config.factory'),
-      $container->get('config.typed'),
       $container->get('module_handler'),
       $container->get('entity_type.manager'),
       $container->get('entity_type.bundle.info'),
-      $container->get('class_resolver')
+      $container->get('class_resolver'),
+      $container->get('config.typed'),
     );
   }
 
