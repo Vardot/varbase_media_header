@@ -1,7 +1,8 @@
 // Variables for Varbase Media Header (Image, Video, or media)
 // -----------------------------------------------------------------------------
 
-@import "../node_modules/rfs/scss";
+@forward "rfs/scss";
+@use "rfs/scss" as *;
 
 // Grid breakpoints ( Bootstrap 4 )
 //
