@@ -1,25 +1,25 @@
 /**
  * @file
- * Behaviors of Varbase Media Header for vimeo embeded videos scripts.
+ * Behaviors of Varbase Media Header for vimeo embedded videos scripts.
  */
 
-(function ($, _, Drupal) {
+(function varbaseMediaHeaderVimeo($, _, Drupal) {
   Drupal.behaviors.varbaseMediaHeader_vimeo = {
-    attach: function (context) {
+    attach(context) {
       if (context === window.document) {
-        $(document).ready(function () {
+        $(document).ready(function onDocumentReady() {
           if (
-            $(".vmh-background").find(
-              '.media--type-remote-video iframe[src*="vimeo.com"]'
+            $('.vmh-background').find(
+              '.media--type-remote-video iframe[src*="vimeo.com"]',
             ).length > 0
           ) {
-            const closestVimeoIframe = $(".vmh-background")
+            const closestVimeoIframe = $('.vmh-background')
               .find('.media--type-remote-video iframe[src*="vimeo.com"]')
               .get(0).contentWindow;
-            closestVimeoIframe.postMessage("play", "*");
+            closestVimeoIframe.postMessage('play', '*');
           }
         });
       }
-    }
+    },
   };
 })(window.jQuery, window._, window.Drupal, window.drupalSettings);
