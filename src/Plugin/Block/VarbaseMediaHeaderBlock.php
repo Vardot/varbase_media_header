@@ -167,21 +167,23 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
    * @param \Drupal\Core\Entity\EntityDisplayRepositoryInterface $entity_display_repository
    *   The entity display repository.
    */
-  public function __construct(array $configuration,
-  $plugin_id,
-  $plugin_definition,
-          ConfigFactoryInterface $config_factory,
-          EntityTypeManagerInterface $entity_type_manager,
-          EntityTypeBundleInfoInterface $bundle_info,
-          LanguageManagerInterface $language_manager,
-          RouteMatchInterface $route_match,
-          TitleResolverInterface $title_resolver,
-          RequestStack $request_stack,
-          AccountInterface $current_user,
-          BlockManagerInterface $block_manager,
-          RendererInterface $renderer,
-          EntityFieldManagerInterface $entity_field_manager,
-          EntityDisplayRepositoryInterface $entity_display_repository) {
+  public function __construct(
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    ConfigFactoryInterface $config_factory,
+    EntityTypeManagerInterface $entity_type_manager,
+    EntityTypeBundleInfoInterface $bundle_info,
+    LanguageManagerInterface $language_manager,
+    RouteMatchInterface $route_match,
+    TitleResolverInterface $title_resolver,
+    RequestStack $request_stack,
+    AccountInterface $current_user,
+    BlockManagerInterface $block_manager,
+    RendererInterface $renderer,
+    EntityFieldManagerInterface $entity_field_manager,
+    EntityDisplayRepositoryInterface $entity_display_repository,
+  ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->configFactory = $config_factory;
     $this->entityTypeManager = $entity_type_manager;
