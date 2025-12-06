@@ -16,7 +16,7 @@
     "source": "http://cgit.drupalcode.org/varbase_media_header"
   },
   "require": {
-    "drupal/core": "~10.5.0 || ~11.2.0",
+    "drupal/core": "~10.6.0 || ~11.3.0",
     "vardot/varbase-patches": "~10",
     "drupal/varbase_media": "~10",
     "drupal/varbase_components": "~2"
