@@ -237,7 +237,7 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
       $node = $this->routeMatch->getParameter('node');
     }
     elseif ($routeName == 'entity.node.latest_version') {
-      $latest_version_node = \Drupal::routeMatch()->getParameter('node');
+      $latest_version_node = $this->routeMatch->getParameter('node');
       /** @var \Drupal\Core\Entity\RevisionableStorageInterface $storage */
       $storage = $this->entityTypeManager->getStorage('node');
       $last_revision_id = $storage->getLatestRevisionId($latest_version_node->id());
@@ -255,7 +255,7 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
         $node_bundle = $node->bundle();
       }
       elseif ($routeName == 'entity.node.latest_version') {
-        $latest_version_node = \Drupal::routeMatch()->getParameter('node');
+        $latest_version_node = $this->routeMatch->getParameter('node');
         /** @var \Drupal\Core\Entity\RevisionableStorageInterface $storage */
         $storage = $this->entityTypeManager->getStorage('node');
         $last_revision_id = $storage->getLatestRevisionId($latest_version_node->id());
@@ -479,7 +479,7 @@ class VarbaseMediaHeaderBlock extends BlockBase implements ContainerFactoryPlugi
       $node = $this->routeMatch->getParameter('node');
     }
     elseif ($routeName == 'entity.node.latest_version') {
-      $latest_version_node = \Drupal::routeMatch()->getParameter('node');
+      $latest_version_node = $this->routeMatch->getParameter('node');
       /** @var \Drupal\Core\Entity\RevisionableStorageInterface $storage */
       $storage = $this->entityTypeManager->getStorage('node');
       $last_revision_id = $storage->getLatestRevisionId($latest_version_node->id());

@@ -1,0 +1,8 @@
+name: 'Varbase Media Header Test'
+description: 'Sets up the site for the Varbase Media Header automated tests on a Standard profile (Varbase Media Header is enabled by the CI before running this recipe).'
+type: 'Testing'
+config:
+  actions:
+    user.role.authenticated:
+      grantPermissions:
+        - 'access administration pages'
