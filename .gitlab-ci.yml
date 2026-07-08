@@ -142,4 +142,4 @@ composer:
     - composer config --no-plugins allow-plugins.php-http/discovery true || true
     - composer config --no-plugins allow-plugins.tbachert/spi true || true
     - composer config --no-plugins allow-plugins.vardot/varbase-patches true || true
-    - composer require --no-update vardot/varbase-patches:~10.1.0 drupal/varbase_components:3.0.x-dev
+    - composer require --no-update vardot/varbase-patches:~10.1.0
