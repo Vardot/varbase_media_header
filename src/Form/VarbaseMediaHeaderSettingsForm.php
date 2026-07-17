@@ -2,7 +2,7 @@
 
 namespace Drupal\varbase_media_header\Form;
 
-use Symfony\Component\Yaml\Yaml;
+use Drupal\Component\Serialization\Yaml;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -207,7 +207,7 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
             if (file_exists($config_path)) {
               $config_content = file_get_contents($config_path);
               $config_content = str_replace($config_entity_type_key_token, $bundle_key, $config_content);
-              $config_data = (array) Yaml::parse($config_content);
+              $config_data = (array) Yaml::decode($config_content);
               $config_factory->setData($config_data)->save(TRUE);
             }
           }
@@ -222,7 +222,7 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
             if (file_exists($config_path)) {
               $config_content = file_get_contents($config_path);
               $config_content = str_replace($config_entity_type_key_token, $bundle_key, $config_content);
-              $config_data = (array) Yaml::parse($config_content);
+              $config_data = (array) Yaml::decode($config_content);
               $config_factory->setData($config_data)->save(TRUE);
             }
           }
@@ -237,7 +237,7 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
             if (file_exists($config_path)) {
               $config_content = file_get_contents($config_path);
               $config_content = str_replace($config_entity_type_key_token, $bundle_key, $config_content);
-              $part_config_data = (array) Yaml::parse($config_content);
+              $part_config_data = (array) Yaml::decode($config_content);
 
               $site_config_data = $config_factory->get();
               if (isset($site_config_data['content'])) {
@@ -258,7 +258,7 @@ class VarbaseMediaHeaderSettingsForm extends ConfigFormBase {
             if (file_exists($config_path)) {
               $config_content = file_get_contents($config_path);
               $config_content = str_replace($config_entity_type_key_token, $bundle_key, $config_content);
-              $part_config_data = (array) Yaml::parse($config_content);
+              $part_config_data = (array) Yaml::decode($config_content);
 
               $site_config_data = $config_factory->get();
               if (isset($site_config_data['hidden'])) {

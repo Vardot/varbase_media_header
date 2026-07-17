@@ -8,8 +8,7 @@
 use Drupal\Core\Recipe\Recipe;
 use Drupal\Core\Recipe\RecipeRunner;
 
-// Include all helpers and updates.
-include_once __DIR__ . '/includes/helpers.inc';
+// Include all updates.
 include_once __DIR__ . '/includes/updates.inc';
 
 /**
