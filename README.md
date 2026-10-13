@@ -18,6 +18,6 @@ Check out Varbase documentation for more details.
 * [Configuring Varbase Media Header](https://docs.varbase.vardot.com/dev-docs/configuring-a-varbase-site/configuring-varbase-media-header)
 
 Join Our Slack Team for Feedback and Support
-http://slack.varbase.vardot.com/
+https://varbase.slack.com
 
 This module is sponsored and developed by [Vardot](https://www.drupal.org/vardot).
